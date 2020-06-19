@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import "./style.scss";
 
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Header";

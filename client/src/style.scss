@@ -1,0 +1,94 @@
+$dark: #092327;
+$light: #ede7d9;
+
+@mixin flex($justify, $align) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@import "reset.css";
+
+html {
+  font-size: 62.5%;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: $light;
+}
+
+a {
+  text-decoration: none;
+}
+
+.content {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: $dark;
+  padding: 30px;
+  .content {
+    @include flex(space-between, center);
+    nav {
+      @include flex(space-between, center);
+      li {
+        list-style-type: none;
+        color: $light;
+        font-size: 1.6rem;
+        padding: 0 6rem 0 0;
+        a {
+          color: $light;
+        }
+      }
+      .logo {
+        font-size: 3rem;
+        color: $light;
+        font-weight: bold;
+      }
+    }
+    .buttons {
+      button {
+        @include flex(space-around, center);
+
+        background-color: $dark;
+        border: none;
+        border-radius: 3rem;
+        padding: 1rem 2rem;
+        margin: 0 0 0 1rem;
+        font-size: 1.7rem;
+        color: $light;
+        cursor: pointer;
+        transition: 0.3s all;
+        outline: none;
+        img {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 2rem;
+          margin: 0 0 0 1rem;
+        }
+      }
+    }
+  }
+}
+
+.dashboard {
+  .content {
+    padding: 3rem 0;
+    .resumes {
+      @include flex(flex-start, stretch);
+      flex-wrap: wrap;
+      .card {
+        font-size: 2rem;
+        border-radius: 1rem;
+        background-color: $dark;
+        color: $light;
+        width: 20rem;
+        height: 30rem;
+        margin: 0 5rem 2rem 0;
+        &:nth-child(5n) {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

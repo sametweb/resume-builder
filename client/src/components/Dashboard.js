@@ -4,6 +4,7 @@ import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { USER_RESUMES } from "../queries";
 import { ADD_RESUME, DELETE_RESUME } from "../mutations";
 import { AuthContext } from "../App";
+import ResumeCard from "./Dashboard/ResumeCard";
 
 function Dashboard() {
   const [createInput, setCreateInput] = useState("");
@@ -20,34 +21,26 @@ function Dashboard() {
     onError: (err) => alert(err.message),
   });
 
-  const [deleteResume] = useMutation(DELETE_RESUME, {
-    refetchQueries: ["resumes"],
-  });
-
   useEffect(() => {
-    user?.email &&
-      userResumes({
-        variables: { user: user.email },
-      });
+    user?.email && userResumes({ variables: { user: user.email } });
   }, [user]);
 
   if (!error && !data) return "Loading";
 
   return (
-    <div>
-      <input
-        placeholder="New Resume"
-        value={createInput}
-        onChange={(e) => setCreateInput(e.target.value)}
-      />
-      <button onClick={addResume}>Add</button>
-      {data?.userResumes.map(({ id, title }) => (
-        <p key={id}>
-          <span onClick={() => deleteResume({ variables: { id } })}>⛔</span>
-          {title}
-        </p>
-      ))}
-    </div>
+    <section className="dashboard">
+      <div className="content">
+        <input
+          placeholder="New Resume"
+          value={createInput}
+          onChange={(e) => setCreateInput(e.target.value)}
+        />
+        <button onClick={addResume}>Add</button>
+        <div className="resumes">
+          {data?.userResumes.map((resume) => <ResumeCard resume={resume} />)}
+        </div>
+      </div>
+    </section>
   );
 }
 
