@@ -1,0 +1,5 @@
+type Resume {
+  id: ID! @id
+  user: String!
+  title: String!
+}
