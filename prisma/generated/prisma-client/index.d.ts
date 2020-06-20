@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   resume: (where?: ResumeWhereInput) => Promise<boolean>;
+  section: (where?: SectionWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -57,6 +58,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => ResumeConnectionPromise;
+  section: (where: SectionWhereUniqueInput) => SectionNullablePromise;
+  sections: (args?: {
+    where?: SectionWhereInput;
+    orderBy?: SectionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Section>;
+  sectionsConnection: (args?: {
+    where?: SectionWhereInput;
+    orderBy?: SectionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => SectionConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -79,6 +99,22 @@ export interface Prisma {
   }) => ResumePromise;
   deleteResume: (where: ResumeWhereUniqueInput) => ResumePromise;
   deleteManyResumes: (where?: ResumeWhereInput) => BatchPayloadPromise;
+  createSection: (data: SectionCreateInput) => SectionPromise;
+  updateSection: (args: {
+    data: SectionUpdateInput;
+    where: SectionWhereUniqueInput;
+  }) => SectionPromise;
+  updateManySections: (args: {
+    data: SectionUpdateManyMutationInput;
+    where?: SectionWhereInput;
+  }) => BatchPayloadPromise;
+  upsertSection: (args: {
+    where: SectionWhereUniqueInput;
+    create: SectionCreateInput;
+    update: SectionUpdateInput;
+  }) => SectionPromise;
+  deleteSection: (where: SectionWhereUniqueInput) => SectionPromise;
+  deleteManySections: (where?: SectionWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -91,6 +127,9 @@ export interface Subscription {
   resume: (
     where?: ResumeSubscriptionWhereInput
   ) => ResumeSubscriptionPayloadSubscription;
+  section: (
+    where?: SectionSubscriptionWhereInput
+  ) => SectionSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -100,6 +139,12 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type SectionOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "title_ASC"
+  | "title_DESC";
 
 export type ResumeOrderByInput =
   | "id_ASC"
@@ -114,6 +159,41 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 export type ResumeWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface SectionWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  resume?: Maybe<ResumeWhereInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SectionWhereInput[] | SectionWhereInput>;
+  OR?: Maybe<SectionWhereInput[] | SectionWhereInput>;
+  NOT?: Maybe<SectionWhereInput[] | SectionWhereInput>;
+}
 
 export interface ResumeWhereInput {
   id?: Maybe<ID_Input>;
@@ -158,24 +238,169 @@ export interface ResumeWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
+  sections_every?: Maybe<SectionWhereInput>;
+  sections_some?: Maybe<SectionWhereInput>;
+  sections_none?: Maybe<SectionWhereInput>;
   AND?: Maybe<ResumeWhereInput[] | ResumeWhereInput>;
   OR?: Maybe<ResumeWhereInput[] | ResumeWhereInput>;
   NOT?: Maybe<ResumeWhereInput[] | ResumeWhereInput>;
 }
 
+export type SectionWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export interface ResumeCreateInput {
   id?: Maybe<ID_Input>;
   user: String;
+  title: String;
+  sections?: Maybe<SectionCreateManyWithoutResumeInput>;
+}
+
+export interface SectionCreateManyWithoutResumeInput {
+  create?: Maybe<
+    SectionCreateWithoutResumeInput[] | SectionCreateWithoutResumeInput
+  >;
+  connect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+}
+
+export interface SectionCreateWithoutResumeInput {
+  id?: Maybe<ID_Input>;
   title: String;
 }
 
 export interface ResumeUpdateInput {
   user?: Maybe<String>;
   title?: Maybe<String>;
+  sections?: Maybe<SectionUpdateManyWithoutResumeInput>;
+}
+
+export interface SectionUpdateManyWithoutResumeInput {
+  create?: Maybe<
+    SectionCreateWithoutResumeInput[] | SectionCreateWithoutResumeInput
+  >;
+  delete?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  connect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  set?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  disconnect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  update?: Maybe<
+    | SectionUpdateWithWhereUniqueWithoutResumeInput[]
+    | SectionUpdateWithWhereUniqueWithoutResumeInput
+  >;
+  upsert?: Maybe<
+    | SectionUpsertWithWhereUniqueWithoutResumeInput[]
+    | SectionUpsertWithWhereUniqueWithoutResumeInput
+  >;
+  deleteMany?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
+  updateMany?: Maybe<
+    | SectionUpdateManyWithWhereNestedInput[]
+    | SectionUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface SectionUpdateWithWhereUniqueWithoutResumeInput {
+  where: SectionWhereUniqueInput;
+  data: SectionUpdateWithoutResumeDataInput;
+}
+
+export interface SectionUpdateWithoutResumeDataInput {
+  title?: Maybe<String>;
+}
+
+export interface SectionUpsertWithWhereUniqueWithoutResumeInput {
+  where: SectionWhereUniqueInput;
+  update: SectionUpdateWithoutResumeDataInput;
+  create: SectionCreateWithoutResumeInput;
+}
+
+export interface SectionScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
+  OR?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
+  NOT?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
+}
+
+export interface SectionUpdateManyWithWhereNestedInput {
+  where: SectionScalarWhereInput;
+  data: SectionUpdateManyDataInput;
+}
+
+export interface SectionUpdateManyDataInput {
+  title?: Maybe<String>;
 }
 
 export interface ResumeUpdateManyMutationInput {
   user?: Maybe<String>;
+  title?: Maybe<String>;
+}
+
+export interface SectionCreateInput {
+  id?: Maybe<ID_Input>;
+  resume: ResumeCreateOneWithoutSectionsInput;
+  title: String;
+}
+
+export interface ResumeCreateOneWithoutSectionsInput {
+  create?: Maybe<ResumeCreateWithoutSectionsInput>;
+  connect?: Maybe<ResumeWhereUniqueInput>;
+}
+
+export interface ResumeCreateWithoutSectionsInput {
+  id?: Maybe<ID_Input>;
+  user: String;
+  title: String;
+}
+
+export interface SectionUpdateInput {
+  resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
+  title?: Maybe<String>;
+}
+
+export interface ResumeUpdateOneRequiredWithoutSectionsInput {
+  create?: Maybe<ResumeCreateWithoutSectionsInput>;
+  update?: Maybe<ResumeUpdateWithoutSectionsDataInput>;
+  upsert?: Maybe<ResumeUpsertWithoutSectionsInput>;
+  connect?: Maybe<ResumeWhereUniqueInput>;
+}
+
+export interface ResumeUpdateWithoutSectionsDataInput {
+  user?: Maybe<String>;
+  title?: Maybe<String>;
+}
+
+export interface ResumeUpsertWithoutSectionsInput {
+  update: ResumeUpdateWithoutSectionsDataInput;
+  create: ResumeCreateWithoutSectionsInput;
+}
+
+export interface SectionUpdateManyMutationInput {
   title?: Maybe<String>;
 }
 
@@ -188,6 +413,17 @@ export interface ResumeSubscriptionWhereInput {
   AND?: Maybe<ResumeSubscriptionWhereInput[] | ResumeSubscriptionWhereInput>;
   OR?: Maybe<ResumeSubscriptionWhereInput[] | ResumeSubscriptionWhereInput>;
   NOT?: Maybe<ResumeSubscriptionWhereInput[] | ResumeSubscriptionWhereInput>;
+}
+
+export interface SectionSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SectionWhereInput>;
+  AND?: Maybe<SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput>;
+  OR?: Maybe<SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput>;
+  NOT?: Maybe<SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput>;
 }
 
 export interface NodeNode {
@@ -204,6 +440,15 @@ export interface ResumePromise extends Promise<Resume>, Fragmentable {
   id: () => Promise<ID_Output>;
   user: () => Promise<String>;
   title: () => Promise<String>;
+  sections: <T = FragmentableArray<Section>>(args?: {
+    where?: SectionWhereInput;
+    orderBy?: SectionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ResumeSubscription
@@ -212,6 +457,15 @@ export interface ResumeSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   user: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
+  sections: <T = Promise<AsyncIterator<SectionSubscription>>>(args?: {
+    where?: SectionWhereInput;
+    orderBy?: SectionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ResumeNullablePromise
@@ -219,6 +473,42 @@ export interface ResumeNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   user: () => Promise<String>;
+  title: () => Promise<String>;
+  sections: <T = FragmentableArray<Section>>(args?: {
+    where?: SectionWhereInput;
+    orderBy?: SectionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface Section {
+  id: ID_Output;
+  title: String;
+}
+
+export interface SectionPromise extends Promise<Section>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  resume: <T = ResumePromise>() => T;
+  title: () => Promise<String>;
+}
+
+export interface SectionSubscription
+  extends Promise<AsyncIterator<Section>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  resume: <T = ResumeSubscription>() => T;
+  title: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SectionNullablePromise
+  extends Promise<Section | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  resume: <T = ResumePromise>() => T;
   title: () => Promise<String>;
 }
 
@@ -299,6 +589,60 @@ export interface AggregateResumeSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface SectionConnection {
+  pageInfo: PageInfo;
+  edges: SectionEdge[];
+}
+
+export interface SectionConnectionPromise
+  extends Promise<SectionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SectionEdge>>() => T;
+  aggregate: <T = AggregateSectionPromise>() => T;
+}
+
+export interface SectionConnectionSubscription
+  extends Promise<AsyncIterator<SectionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SectionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSectionSubscription>() => T;
+}
+
+export interface SectionEdge {
+  node: Section;
+  cursor: String;
+}
+
+export interface SectionEdgePromise extends Promise<SectionEdge>, Fragmentable {
+  node: <T = SectionPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SectionEdgeSubscription
+  extends Promise<AsyncIterator<SectionEdge>>,
+    Fragmentable {
+  node: <T = SectionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSection {
+  count: Int;
+}
+
+export interface AggregateSectionPromise
+  extends Promise<AggregateSection>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSectionSubscription
+  extends Promise<AsyncIterator<AggregateSection>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface BatchPayload {
   count: Long;
 }
@@ -362,6 +706,50 @@ export interface ResumePreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
 }
 
+export interface SectionSubscriptionPayload {
+  mutation: MutationType;
+  node: Section;
+  updatedFields: String[];
+  previousValues: SectionPreviousValues;
+}
+
+export interface SectionSubscriptionPayloadPromise
+  extends Promise<SectionSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SectionPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SectionPreviousValuesPromise>() => T;
+}
+
+export interface SectionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SectionSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SectionSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SectionPreviousValuesSubscription>() => T;
+}
+
+export interface SectionPreviousValues {
+  id: ID_Output;
+  title: String;
+}
+
+export interface SectionPreviousValuesPromise
+  extends Promise<SectionPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+}
+
+export interface SectionPreviousValuesSubscription
+  extends Promise<AsyncIterator<SectionPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+}
+
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
@@ -392,6 +780,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "Resume",
+    embedded: false
+  },
+  {
+    name: "Section",
     embedded: false
   }
 ];

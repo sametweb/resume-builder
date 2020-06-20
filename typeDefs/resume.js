@@ -3,7 +3,7 @@ const { gql } = require("apollo-server");
 module.exports = gql`
   extend type Query {
     userResumes(user: String!): [Resume!]!
-    resumeById(id: ID!): Resume!
+    resumeById(id: ID!, user: String!): Resume!
   }
 
   extend type Mutation {
@@ -16,5 +16,6 @@ module.exports = gql`
     id: ID!
     title: String!
     user: String!
+    sections: [Section]!
   }
 `;

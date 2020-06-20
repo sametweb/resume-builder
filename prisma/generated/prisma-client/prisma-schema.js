@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregateSection {
+  count: Int!
+}
+
 type BatchPayload {
   count: Long!
 }
@@ -20,6 +24,12 @@ type Mutation {
   upsertResume(where: ResumeWhereUniqueInput!, create: ResumeCreateInput!, update: ResumeUpdateInput!): Resume!
   deleteResume(where: ResumeWhereUniqueInput!): Resume
   deleteManyResumes(where: ResumeWhereInput): BatchPayload!
+  createSection(data: SectionCreateInput!): Section!
+  updateSection(data: SectionUpdateInput!, where: SectionWhereUniqueInput!): Section
+  updateManySections(data: SectionUpdateManyMutationInput!, where: SectionWhereInput): BatchPayload!
+  upsertSection(where: SectionWhereUniqueInput!, create: SectionCreateInput!, update: SectionUpdateInput!): Section!
+  deleteSection(where: SectionWhereUniqueInput!): Section
+  deleteManySections(where: SectionWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -43,6 +53,9 @@ type Query {
   resume(where: ResumeWhereUniqueInput!): Resume
   resumes(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Resume]!
   resumesConnection(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ResumeConnection!
+  section(where: SectionWhereUniqueInput!): Section
+  sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section]!
+  sectionsConnection(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SectionConnection!
   node(id: ID!): Node
 }
 
@@ -50,6 +63,7 @@ type Resume {
   id: ID!
   user: String!
   title: String!
+  sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
 }
 
 type ResumeConnection {
@@ -59,6 +73,18 @@ type ResumeConnection {
 }
 
 input ResumeCreateInput {
+  id: ID
+  user: String!
+  title: String!
+  sections: SectionCreateManyWithoutResumeInput
+}
+
+input ResumeCreateOneWithoutSectionsInput {
+  create: ResumeCreateWithoutSectionsInput
+  connect: ResumeWhereUniqueInput
+}
+
+input ResumeCreateWithoutSectionsInput {
   id: ID
   user: String!
   title: String!
@@ -105,11 +131,29 @@ input ResumeSubscriptionWhereInput {
 input ResumeUpdateInput {
   user: String
   title: String
+  sections: SectionUpdateManyWithoutResumeInput
 }
 
 input ResumeUpdateManyMutationInput {
   user: String
   title: String
+}
+
+input ResumeUpdateOneRequiredWithoutSectionsInput {
+  create: ResumeCreateWithoutSectionsInput
+  update: ResumeUpdateWithoutSectionsDataInput
+  upsert: ResumeUpsertWithoutSectionsInput
+  connect: ResumeWhereUniqueInput
+}
+
+input ResumeUpdateWithoutSectionsDataInput {
+  user: String
+  title: String
+}
+
+input ResumeUpsertWithoutSectionsInput {
+  update: ResumeUpdateWithoutSectionsDataInput!
+  create: ResumeCreateWithoutSectionsInput!
 }
 
 input ResumeWhereInput {
@@ -155,6 +199,9 @@ input ResumeWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  sections_every: SectionWhereInput
+  sections_some: SectionWhereInput
+  sections_none: SectionWhereInput
   AND: [ResumeWhereInput!]
   OR: [ResumeWhereInput!]
   NOT: [ResumeWhereInput!]
@@ -164,8 +211,190 @@ input ResumeWhereUniqueInput {
   id: ID
 }
 
+type Section {
+  id: ID!
+  resume: Resume!
+  title: String!
+}
+
+type SectionConnection {
+  pageInfo: PageInfo!
+  edges: [SectionEdge]!
+  aggregate: AggregateSection!
+}
+
+input SectionCreateInput {
+  id: ID
+  resume: ResumeCreateOneWithoutSectionsInput!
+  title: String!
+}
+
+input SectionCreateManyWithoutResumeInput {
+  create: [SectionCreateWithoutResumeInput!]
+  connect: [SectionWhereUniqueInput!]
+}
+
+input SectionCreateWithoutResumeInput {
+  id: ID
+  title: String!
+}
+
+type SectionEdge {
+  node: Section!
+  cursor: String!
+}
+
+enum SectionOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+}
+
+type SectionPreviousValues {
+  id: ID!
+  title: String!
+}
+
+input SectionScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  AND: [SectionScalarWhereInput!]
+  OR: [SectionScalarWhereInput!]
+  NOT: [SectionScalarWhereInput!]
+}
+
+type SectionSubscriptionPayload {
+  mutation: MutationType!
+  node: Section
+  updatedFields: [String!]
+  previousValues: SectionPreviousValues
+}
+
+input SectionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SectionWhereInput
+  AND: [SectionSubscriptionWhereInput!]
+  OR: [SectionSubscriptionWhereInput!]
+  NOT: [SectionSubscriptionWhereInput!]
+}
+
+input SectionUpdateInput {
+  resume: ResumeUpdateOneRequiredWithoutSectionsInput
+  title: String
+}
+
+input SectionUpdateManyDataInput {
+  title: String
+}
+
+input SectionUpdateManyMutationInput {
+  title: String
+}
+
+input SectionUpdateManyWithoutResumeInput {
+  create: [SectionCreateWithoutResumeInput!]
+  delete: [SectionWhereUniqueInput!]
+  connect: [SectionWhereUniqueInput!]
+  set: [SectionWhereUniqueInput!]
+  disconnect: [SectionWhereUniqueInput!]
+  update: [SectionUpdateWithWhereUniqueWithoutResumeInput!]
+  upsert: [SectionUpsertWithWhereUniqueWithoutResumeInput!]
+  deleteMany: [SectionScalarWhereInput!]
+  updateMany: [SectionUpdateManyWithWhereNestedInput!]
+}
+
+input SectionUpdateManyWithWhereNestedInput {
+  where: SectionScalarWhereInput!
+  data: SectionUpdateManyDataInput!
+}
+
+input SectionUpdateWithoutResumeDataInput {
+  title: String
+}
+
+input SectionUpdateWithWhereUniqueWithoutResumeInput {
+  where: SectionWhereUniqueInput!
+  data: SectionUpdateWithoutResumeDataInput!
+}
+
+input SectionUpsertWithWhereUniqueWithoutResumeInput {
+  where: SectionWhereUniqueInput!
+  update: SectionUpdateWithoutResumeDataInput!
+  create: SectionCreateWithoutResumeInput!
+}
+
+input SectionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  resume: ResumeWhereInput
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  AND: [SectionWhereInput!]
+  OR: [SectionWhereInput!]
+  NOT: [SectionWhereInput!]
+}
+
+input SectionWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   resume(where: ResumeSubscriptionWhereInput): ResumeSubscriptionPayload
+  section(where: SectionSubscriptionWhereInput): SectionSubscriptionPayload
 }
 `
       }

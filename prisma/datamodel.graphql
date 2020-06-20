@@ -2,4 +2,11 @@ type Resume {
   id: ID! @id
   user: String!
   title: String!
+  sections: [Section!]!
+}
+
+type Section {
+  id: ID! @id
+  resume: Resume! @relation(link: INLINE)
+  title: String!
 }
