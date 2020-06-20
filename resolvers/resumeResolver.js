@@ -3,6 +3,9 @@ module.exports = {
     userResumes: (parent, { user }, { prisma }) => {
       return prisma.resumes({ where: { user } });
     },
+    resumeById: (parent, { id }, { prisma }) => {
+      return prisma.resume({ id });
+    },
   },
   Mutation: {
     createResume: (parent, { title, user }, { prisma }) => {
