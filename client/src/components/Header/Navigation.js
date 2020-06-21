@@ -9,11 +9,21 @@ function Navigation() {
     <nav>
       <li className="logo">Resume Builder</li>
       <li>
-        <Link to="/">What is Resume Builder ❓</Link>
+        <Link to="/">
+          What is Resume Builder{" "}
+          <span role="img" aria-label="delete">
+            ❓
+          </span>
+        </Link>
       </li>
       {user && (
         <li>
-          <Link to="/dashboard">Create Resume 📝</Link>
+          <Link to="/dashboard">
+            Create Resume{" "}
+            <span role="img" aria-label="edit">
+              📝
+            </span>
+          </Link>
         </li>
       )}
     </nav>

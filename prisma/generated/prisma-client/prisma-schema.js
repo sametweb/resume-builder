@@ -215,6 +215,7 @@ type Section {
   id: ID!
   resume: Resume!
   title: String!
+  order: Int!
 }
 
 type SectionConnection {
@@ -227,6 +228,7 @@ input SectionCreateInput {
   id: ID
   resume: ResumeCreateOneWithoutSectionsInput!
   title: String!
+  order: Int!
 }
 
 input SectionCreateManyWithoutResumeInput {
@@ -237,6 +239,7 @@ input SectionCreateManyWithoutResumeInput {
 input SectionCreateWithoutResumeInput {
   id: ID
   title: String!
+  order: Int!
 }
 
 type SectionEdge {
@@ -249,11 +252,14 @@ enum SectionOrderByInput {
   id_DESC
   title_ASC
   title_DESC
+  order_ASC
+  order_DESC
 }
 
 type SectionPreviousValues {
   id: ID!
   title: String!
+  order: Int!
 }
 
 input SectionScalarWhereInput {
@@ -285,6 +291,14 @@ input SectionScalarWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  order: Int
+  order_not: Int
+  order_in: [Int!]
+  order_not_in: [Int!]
+  order_lt: Int
+  order_lte: Int
+  order_gt: Int
+  order_gte: Int
   AND: [SectionScalarWhereInput!]
   OR: [SectionScalarWhereInput!]
   NOT: [SectionScalarWhereInput!]
@@ -311,14 +325,17 @@ input SectionSubscriptionWhereInput {
 input SectionUpdateInput {
   resume: ResumeUpdateOneRequiredWithoutSectionsInput
   title: String
+  order: Int
 }
 
 input SectionUpdateManyDataInput {
   title: String
+  order: Int
 }
 
 input SectionUpdateManyMutationInput {
   title: String
+  order: Int
 }
 
 input SectionUpdateManyWithoutResumeInput {
@@ -340,6 +357,7 @@ input SectionUpdateManyWithWhereNestedInput {
 
 input SectionUpdateWithoutResumeDataInput {
   title: String
+  order: Int
 }
 
 input SectionUpdateWithWhereUniqueWithoutResumeInput {
@@ -383,6 +401,14 @@ input SectionWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  order: Int
+  order_not: Int
+  order_in: [Int!]
+  order_not_in: [Int!]
+  order_lt: Int
+  order_lte: Int
+  order_gt: Int
+  order_gte: Int
   AND: [SectionWhereInput!]
   OR: [SectionWhereInput!]
   NOT: [SectionWhereInput!]

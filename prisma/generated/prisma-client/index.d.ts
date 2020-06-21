@@ -144,7 +144,9 @@ export type SectionOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "title_ASC"
-  | "title_DESC";
+  | "title_DESC"
+  | "order_ASC"
+  | "order_DESC";
 
 export type ResumeOrderByInput =
   | "id_ASC"
@@ -190,6 +192,14 @@ export interface SectionWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
+  order?: Maybe<Int>;
+  order_not?: Maybe<Int>;
+  order_in?: Maybe<Int[] | Int>;
+  order_not_in?: Maybe<Int[] | Int>;
+  order_lt?: Maybe<Int>;
+  order_lte?: Maybe<Int>;
+  order_gt?: Maybe<Int>;
+  order_gte?: Maybe<Int>;
   AND?: Maybe<SectionWhereInput[] | SectionWhereInput>;
   OR?: Maybe<SectionWhereInput[] | SectionWhereInput>;
   NOT?: Maybe<SectionWhereInput[] | SectionWhereInput>;
@@ -267,6 +277,7 @@ export interface SectionCreateManyWithoutResumeInput {
 export interface SectionCreateWithoutResumeInput {
   id?: Maybe<ID_Input>;
   title: String;
+  order: Int;
 }
 
 export interface ResumeUpdateInput {
@@ -305,6 +316,7 @@ export interface SectionUpdateWithWhereUniqueWithoutResumeInput {
 
 export interface SectionUpdateWithoutResumeDataInput {
   title?: Maybe<String>;
+  order?: Maybe<Int>;
 }
 
 export interface SectionUpsertWithWhereUniqueWithoutResumeInput {
@@ -342,6 +354,14 @@ export interface SectionScalarWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
+  order?: Maybe<Int>;
+  order_not?: Maybe<Int>;
+  order_in?: Maybe<Int[] | Int>;
+  order_not_in?: Maybe<Int[] | Int>;
+  order_lt?: Maybe<Int>;
+  order_lte?: Maybe<Int>;
+  order_gt?: Maybe<Int>;
+  order_gte?: Maybe<Int>;
   AND?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
   OR?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
   NOT?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
@@ -354,6 +374,7 @@ export interface SectionUpdateManyWithWhereNestedInput {
 
 export interface SectionUpdateManyDataInput {
   title?: Maybe<String>;
+  order?: Maybe<Int>;
 }
 
 export interface ResumeUpdateManyMutationInput {
@@ -365,6 +386,7 @@ export interface SectionCreateInput {
   id?: Maybe<ID_Input>;
   resume: ResumeCreateOneWithoutSectionsInput;
   title: String;
+  order: Int;
 }
 
 export interface ResumeCreateOneWithoutSectionsInput {
@@ -381,6 +403,7 @@ export interface ResumeCreateWithoutSectionsInput {
 export interface SectionUpdateInput {
   resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
   title?: Maybe<String>;
+  order?: Maybe<Int>;
 }
 
 export interface ResumeUpdateOneRequiredWithoutSectionsInput {
@@ -402,6 +425,7 @@ export interface ResumeUpsertWithoutSectionsInput {
 
 export interface SectionUpdateManyMutationInput {
   title?: Maybe<String>;
+  order?: Maybe<Int>;
 }
 
 export interface ResumeSubscriptionWhereInput {
@@ -488,12 +512,14 @@ export interface ResumeNullablePromise
 export interface Section {
   id: ID_Output;
   title: String;
+  order: Int;
 }
 
 export interface SectionPromise extends Promise<Section>, Fragmentable {
   id: () => Promise<ID_Output>;
   resume: <T = ResumePromise>() => T;
   title: () => Promise<String>;
+  order: () => Promise<Int>;
 }
 
 export interface SectionSubscription
@@ -502,6 +528,7 @@ export interface SectionSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   resume: <T = ResumeSubscription>() => T;
   title: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface SectionNullablePromise
@@ -510,6 +537,7 @@ export interface SectionNullablePromise
   id: () => Promise<ID_Output>;
   resume: <T = ResumePromise>() => T;
   title: () => Promise<String>;
+  order: () => Promise<Int>;
 }
 
 export interface ResumeConnection {
@@ -734,6 +762,7 @@ export interface SectionSubscriptionPayloadSubscription
 export interface SectionPreviousValues {
   id: ID_Output;
   title: String;
+  order: Int;
 }
 
 export interface SectionPreviousValuesPromise
@@ -741,6 +770,7 @@ export interface SectionPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
+  order: () => Promise<Int>;
 }
 
 export interface SectionPreviousValuesSubscription
@@ -748,6 +778,7 @@ export interface SectionPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
 }
 
 /*

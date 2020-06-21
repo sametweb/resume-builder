@@ -22,6 +22,7 @@ export const GET_RESUME_BY_ID = gql`
       sections {
         id
         title
+        order
       }
     }
   }

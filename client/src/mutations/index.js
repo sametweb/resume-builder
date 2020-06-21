@@ -27,3 +27,42 @@ export const DELETE_RESUME = gql`
     }
   }
 `;
+
+export const ADD_SECTION = gql`
+  mutation createSection($title: String!, $resume: ID!, $order: Int!) {
+    createSection(title: $title, resume: $resume, order: $order) {
+      id
+      title
+      order
+    }
+  }
+`;
+
+export const DELETE_SECTION = gql`
+  mutation deleteSection($id: ID!) {
+    deleteSection(id: $id) {
+      id
+      title
+    }
+  }
+`;
+
+export const UPDATE_SECTION_ORDER = gql`
+  mutation updateSectionOrder(
+    $id: ID!
+    $resume_id: ID!
+    $order: Int!
+    $new_order: Int!
+  ) {
+    updateSectionOrder(
+      id: $id
+      resume_id: $resume_id
+      order: $order
+      new_order: $new_order
+    ) {
+      id
+      title
+      order
+    }
+  }
+`;

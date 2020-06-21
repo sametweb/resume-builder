@@ -149,10 +149,6 @@ header {
       border: 1px solid rgba($dark, 0);
       outline: none;
       padding: 0.5rem;
-      &:focus {
-        background-color: white;
-        border: 1px solid rgba($dark, 0.6);
-      }
     }
   }
   .edit-resume {
@@ -170,7 +166,34 @@ header {
       height: 1123px;
       background-color: white;
       margin: 0 2rem;
+      padding: 5rem;
       box-shadow: #ccc 0 0 0.5rem;
+      .section {
+        margin: 0 0 1rem 0;
+        .dragged-over {
+          background-color: lightgoldenrodyellow;
+        }
+        h3 {
+          @include flex(space-between, flex-start);
+          font-size: 1.4rem;
+          font-weight: bold;
+          text-transform: uppercase;
+          border-bottom: 1px solid #ccc;
+          span {
+            display: none;
+          }
+          &:hover {
+            span {
+              display: block;
+              opacity: 0.3;
+              &:hover {
+                opacity: 1;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

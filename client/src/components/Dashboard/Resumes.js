@@ -9,11 +9,11 @@ import AddResume from "./AddResume";
 function Resumes() {
   const { user } = useContext(AuthContext);
 
-  const [userResumes, { error, data }] = useLazyQuery(USER_RESUMES);
+  const [userResumes, { data }] = useLazyQuery(USER_RESUMES);
 
   useEffect(() => {
     user?.email && userResumes({ variables: { user: user.email } });
-  }, [user]);
+  }, [user, userResumes]);
 
   return (
     <div className="content">

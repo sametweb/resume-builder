@@ -6,8 +6,14 @@ module.exports = gql`
   }
 
   extend type Mutation {
-    createSection(title: String!, resume: ID!): Section!
-    updateSection(id: ID!, title: String!): Section!
+    createSection(title: String!, resume: ID!, order: Int!): Section!
+    updateSection(id: ID!, title: String!, order: Int!): Section!
+    updateSectionOrder(
+      id: ID!
+      resume_id: ID!
+      order: Int!
+      new_order: Int!
+    ): Section!
     deleteSection(id: ID): Section!
   }
 
@@ -15,5 +21,6 @@ module.exports = gql`
     id: ID!
     resume: Resume!
     title: String!
+    order: Int!
   }
 `;

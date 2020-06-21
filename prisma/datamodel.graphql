@@ -9,4 +9,5 @@ type Section {
   id: ID! @id
   resume: Resume! @relation(link: INLINE)
   title: String!
+  order: Int!
 }

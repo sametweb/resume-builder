@@ -21,7 +21,9 @@ function ResumeCard({ resume }) {
               deleteResume({ variables: { id } });
             }}
           >
-            ⛔
+            <span role="img" aria-label="delete">
+              ⛔
+            </span>
           </span>
         </div>
       </div>

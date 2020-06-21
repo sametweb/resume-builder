@@ -13,7 +13,7 @@ function AuthButtons() {
     ) : (
       <>
         <button onClick={signOut} id="logout">
-          Logout <img src={user?.photoURL} />
+          Logout <img src={user?.photoURL} alt="user avatar" />
         </button>
       </>
     );
