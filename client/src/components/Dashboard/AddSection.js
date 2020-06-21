@@ -12,23 +12,28 @@ function AddSection({ resume }) {
       order: resume?.sections.length,
     },
     onCompleted: () => setSectionTitle(""),
+    onError: () => {},
     refetchQueries: ["resumeById"],
   });
 
   const handleAddSection = (e) => {
     e.preventDefault();
-    addSection();
+    sectionTitle.length > 2 && addSection();
   };
 
   return (
     <div className="add-section">
       <form onSubmit={handleAddSection}>
-        <input
-          value={sectionTitle}
-          onChange={(e) => setSectionTitle(e.target.value)}
-          placeholder="section title"
-        />
-        <button>+</button>
+        <label htmlFor="add-section-input">
+          <p>Add Section</p>
+          <input
+            id="add-section-input"
+            value={sectionTitle}
+            onChange={(e) => setSectionTitle(e.target.value)}
+            placeholder="section title"
+          />
+          <button>+</button>
+        </label>
       </form>
     </div>
   );

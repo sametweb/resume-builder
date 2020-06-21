@@ -47,7 +47,7 @@ function EditResume() {
       setDraggedOver(null);
       setDroppedOn(null);
     }
-  }, [dragged, droppedOn]);
+  }, [dragged, droppedOn, updateSectionOrder, id]);
 
   return (
     <div className="editor">
@@ -75,6 +75,11 @@ function EditResume() {
                 onDrop={(e) => {
                   setDroppedOn({ id: section.id, order: section.order });
                 }}
+                onDragEnd={(e) => {
+                  if (droppedOn === null) {
+                    setDraggedOver(null);
+                  }
+                }}
                 key={section.id}
               >
                 <h3
@@ -82,15 +87,20 @@ function EditResume() {
                     draggedOver?.id === section.id ? "dragged-over" : ""
                   }
                 >
-                  {section.title} (Order: {section.order})
-                  <span
-                    role="img"
-                    aria-label="delete section"
-                    onClick={() =>
-                      deleteSection({ variables: { id: section.id } })
-                    }
-                  >
-                    ⛔
+                  {section.title}
+                  <span className="section-actions">
+                    <span role="img" aria-label="edit section title">
+                      📝
+                    </span>
+                    <span
+                      role="img"
+                      aria-label="delete section"
+                      onClick={() =>
+                        deleteSection({ variables: { id: section.id } })
+                      }
+                    >
+                      ⛔
+                    </span>
                   </span>
                 </h3>
               </div>
