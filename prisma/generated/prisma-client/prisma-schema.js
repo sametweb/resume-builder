@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateResume {
+/* GraphQL */ `type AggregateBlock {
+  count: Int!
+}
+
+type AggregateResume {
   count: Int!
 }
 
@@ -15,9 +19,310 @@ type BatchPayload {
   count: Long!
 }
 
+type Block {
+  id: ID!
+  section: Section!
+  title1: String!
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+type BlockConnection {
+  pageInfo: PageInfo!
+  edges: [BlockEdge]!
+  aggregate: AggregateBlock!
+}
+
+input BlockCreateInput {
+  id: ID
+  section: SectionCreateOneWithoutBlocksInput!
+  title1: String!
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+input BlockCreateManyWithoutSectionInput {
+  create: [BlockCreateWithoutSectionInput!]
+  connect: [BlockWhereUniqueInput!]
+}
+
+input BlockCreateWithoutSectionInput {
+  id: ID
+  title1: String!
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+type BlockEdge {
+  node: Block!
+  cursor: String!
+}
+
+enum BlockOrderByInput {
+  id_ASC
+  id_DESC
+  title1_ASC
+  title1_DESC
+  title2_ASC
+  title2_DESC
+  subtitle1_ASC
+  subtitle1_DESC
+  subtitle2_ASC
+  subtitle2_DESC
+}
+
+type BlockPreviousValues {
+  id: ID!
+  title1: String!
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+input BlockScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title1: String
+  title1_not: String
+  title1_in: [String!]
+  title1_not_in: [String!]
+  title1_lt: String
+  title1_lte: String
+  title1_gt: String
+  title1_gte: String
+  title1_contains: String
+  title1_not_contains: String
+  title1_starts_with: String
+  title1_not_starts_with: String
+  title1_ends_with: String
+  title1_not_ends_with: String
+  title2: String
+  title2_not: String
+  title2_in: [String!]
+  title2_not_in: [String!]
+  title2_lt: String
+  title2_lte: String
+  title2_gt: String
+  title2_gte: String
+  title2_contains: String
+  title2_not_contains: String
+  title2_starts_with: String
+  title2_not_starts_with: String
+  title2_ends_with: String
+  title2_not_ends_with: String
+  subtitle1: String
+  subtitle1_not: String
+  subtitle1_in: [String!]
+  subtitle1_not_in: [String!]
+  subtitle1_lt: String
+  subtitle1_lte: String
+  subtitle1_gt: String
+  subtitle1_gte: String
+  subtitle1_contains: String
+  subtitle1_not_contains: String
+  subtitle1_starts_with: String
+  subtitle1_not_starts_with: String
+  subtitle1_ends_with: String
+  subtitle1_not_ends_with: String
+  subtitle2: String
+  subtitle2_not: String
+  subtitle2_in: [String!]
+  subtitle2_not_in: [String!]
+  subtitle2_lt: String
+  subtitle2_lte: String
+  subtitle2_gt: String
+  subtitle2_gte: String
+  subtitle2_contains: String
+  subtitle2_not_contains: String
+  subtitle2_starts_with: String
+  subtitle2_not_starts_with: String
+  subtitle2_ends_with: String
+  subtitle2_not_ends_with: String
+  AND: [BlockScalarWhereInput!]
+  OR: [BlockScalarWhereInput!]
+  NOT: [BlockScalarWhereInput!]
+}
+
+type BlockSubscriptionPayload {
+  mutation: MutationType!
+  node: Block
+  updatedFields: [String!]
+  previousValues: BlockPreviousValues
+}
+
+input BlockSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: BlockWhereInput
+  AND: [BlockSubscriptionWhereInput!]
+  OR: [BlockSubscriptionWhereInput!]
+  NOT: [BlockSubscriptionWhereInput!]
+}
+
+input BlockUpdateInput {
+  section: SectionUpdateOneRequiredWithoutBlocksInput
+  title1: String
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+input BlockUpdateManyDataInput {
+  title1: String
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+input BlockUpdateManyMutationInput {
+  title1: String
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+input BlockUpdateManyWithoutSectionInput {
+  create: [BlockCreateWithoutSectionInput!]
+  delete: [BlockWhereUniqueInput!]
+  connect: [BlockWhereUniqueInput!]
+  set: [BlockWhereUniqueInput!]
+  disconnect: [BlockWhereUniqueInput!]
+  update: [BlockUpdateWithWhereUniqueWithoutSectionInput!]
+  upsert: [BlockUpsertWithWhereUniqueWithoutSectionInput!]
+  deleteMany: [BlockScalarWhereInput!]
+  updateMany: [BlockUpdateManyWithWhereNestedInput!]
+}
+
+input BlockUpdateManyWithWhereNestedInput {
+  where: BlockScalarWhereInput!
+  data: BlockUpdateManyDataInput!
+}
+
+input BlockUpdateWithoutSectionDataInput {
+  title1: String
+  title2: String
+  subtitle1: String
+  subtitle2: String
+}
+
+input BlockUpdateWithWhereUniqueWithoutSectionInput {
+  where: BlockWhereUniqueInput!
+  data: BlockUpdateWithoutSectionDataInput!
+}
+
+input BlockUpsertWithWhereUniqueWithoutSectionInput {
+  where: BlockWhereUniqueInput!
+  update: BlockUpdateWithoutSectionDataInput!
+  create: BlockCreateWithoutSectionInput!
+}
+
+input BlockWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  section: SectionWhereInput
+  title1: String
+  title1_not: String
+  title1_in: [String!]
+  title1_not_in: [String!]
+  title1_lt: String
+  title1_lte: String
+  title1_gt: String
+  title1_gte: String
+  title1_contains: String
+  title1_not_contains: String
+  title1_starts_with: String
+  title1_not_starts_with: String
+  title1_ends_with: String
+  title1_not_ends_with: String
+  title2: String
+  title2_not: String
+  title2_in: [String!]
+  title2_not_in: [String!]
+  title2_lt: String
+  title2_lte: String
+  title2_gt: String
+  title2_gte: String
+  title2_contains: String
+  title2_not_contains: String
+  title2_starts_with: String
+  title2_not_starts_with: String
+  title2_ends_with: String
+  title2_not_ends_with: String
+  subtitle1: String
+  subtitle1_not: String
+  subtitle1_in: [String!]
+  subtitle1_not_in: [String!]
+  subtitle1_lt: String
+  subtitle1_lte: String
+  subtitle1_gt: String
+  subtitle1_gte: String
+  subtitle1_contains: String
+  subtitle1_not_contains: String
+  subtitle1_starts_with: String
+  subtitle1_not_starts_with: String
+  subtitle1_ends_with: String
+  subtitle1_not_ends_with: String
+  subtitle2: String
+  subtitle2_not: String
+  subtitle2_in: [String!]
+  subtitle2_not_in: [String!]
+  subtitle2_lt: String
+  subtitle2_lte: String
+  subtitle2_gt: String
+  subtitle2_gte: String
+  subtitle2_contains: String
+  subtitle2_not_contains: String
+  subtitle2_starts_with: String
+  subtitle2_not_starts_with: String
+  subtitle2_ends_with: String
+  subtitle2_not_ends_with: String
+  AND: [BlockWhereInput!]
+  OR: [BlockWhereInput!]
+  NOT: [BlockWhereInput!]
+}
+
+input BlockWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createBlock(data: BlockCreateInput!): Block!
+  updateBlock(data: BlockUpdateInput!, where: BlockWhereUniqueInput!): Block
+  updateManyBlocks(data: BlockUpdateManyMutationInput!, where: BlockWhereInput): BatchPayload!
+  upsertBlock(where: BlockWhereUniqueInput!, create: BlockCreateInput!, update: BlockUpdateInput!): Block!
+  deleteBlock(where: BlockWhereUniqueInput!): Block
+  deleteManyBlocks(where: BlockWhereInput): BatchPayload!
   createResume(data: ResumeCreateInput!): Resume!
   updateResume(data: ResumeUpdateInput!, where: ResumeWhereUniqueInput!): Resume
   updateManyResumes(data: ResumeUpdateManyMutationInput!, where: ResumeWhereInput): BatchPayload!
@@ -50,6 +355,9 @@ type PageInfo {
 }
 
 type Query {
+  block(where: BlockWhereUniqueInput!): Block
+  blocks(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Block]!
+  blocksConnection(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockConnection!
   resume(where: ResumeWhereUniqueInput!): Resume
   resumes(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Resume]!
   resumesConnection(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ResumeConnection!
@@ -216,6 +524,7 @@ type Section {
   resume: Resume!
   title: String!
   order: Int!
+  blocks(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Block!]
 }
 
 type SectionConnection {
@@ -229,6 +538,7 @@ input SectionCreateInput {
   resume: ResumeCreateOneWithoutSectionsInput!
   title: String!
   order: Int!
+  blocks: BlockCreateManyWithoutSectionInput
 }
 
 input SectionCreateManyWithoutResumeInput {
@@ -236,10 +546,23 @@ input SectionCreateManyWithoutResumeInput {
   connect: [SectionWhereUniqueInput!]
 }
 
+input SectionCreateOneWithoutBlocksInput {
+  create: SectionCreateWithoutBlocksInput
+  connect: SectionWhereUniqueInput
+}
+
+input SectionCreateWithoutBlocksInput {
+  id: ID
+  resume: ResumeCreateOneWithoutSectionsInput!
+  title: String!
+  order: Int!
+}
+
 input SectionCreateWithoutResumeInput {
   id: ID
   title: String!
   order: Int!
+  blocks: BlockCreateManyWithoutSectionInput
 }
 
 type SectionEdge {
@@ -326,6 +649,7 @@ input SectionUpdateInput {
   resume: ResumeUpdateOneRequiredWithoutSectionsInput
   title: String
   order: Int
+  blocks: BlockUpdateManyWithoutSectionInput
 }
 
 input SectionUpdateManyDataInput {
@@ -355,14 +679,33 @@ input SectionUpdateManyWithWhereNestedInput {
   data: SectionUpdateManyDataInput!
 }
 
+input SectionUpdateOneRequiredWithoutBlocksInput {
+  create: SectionCreateWithoutBlocksInput
+  update: SectionUpdateWithoutBlocksDataInput
+  upsert: SectionUpsertWithoutBlocksInput
+  connect: SectionWhereUniqueInput
+}
+
+input SectionUpdateWithoutBlocksDataInput {
+  resume: ResumeUpdateOneRequiredWithoutSectionsInput
+  title: String
+  order: Int
+}
+
 input SectionUpdateWithoutResumeDataInput {
   title: String
   order: Int
+  blocks: BlockUpdateManyWithoutSectionInput
 }
 
 input SectionUpdateWithWhereUniqueWithoutResumeInput {
   where: SectionWhereUniqueInput!
   data: SectionUpdateWithoutResumeDataInput!
+}
+
+input SectionUpsertWithoutBlocksInput {
+  update: SectionUpdateWithoutBlocksDataInput!
+  create: SectionCreateWithoutBlocksInput!
 }
 
 input SectionUpsertWithWhereUniqueWithoutResumeInput {
@@ -409,6 +752,9 @@ input SectionWhereInput {
   order_lte: Int
   order_gt: Int
   order_gte: Int
+  blocks_every: BlockWhereInput
+  blocks_some: BlockWhereInput
+  blocks_none: BlockWhereInput
   AND: [SectionWhereInput!]
   OR: [SectionWhereInput!]
   NOT: [SectionWhereInput!]
@@ -419,6 +765,7 @@ input SectionWhereUniqueInput {
 }
 
 type Subscription {
+  block(where: BlockSubscriptionWhereInput): BlockSubscriptionPayload
   resume(where: ResumeSubscriptionWhereInput): ResumeSubscriptionPayload
   section(where: SectionSubscriptionWhereInput): SectionSubscriptionPayload
 }

@@ -153,10 +153,10 @@ header {
   }
   .edit-resume {
     background-color: $light;
-    @include flex(space-between, flex-start);
+    @include flex(center, flex-start);
     padding: 2rem 0 0 0;
     .left-sidebar {
-      width: 30%;
+      width: 300px;
       .add-section {
         form {
           label {
@@ -190,7 +190,7 @@ header {
       }
     }
     .right-sidebar {
-      width: 20%;
+      width: 200px;
     }
     .paper {
       width: 794px;
@@ -222,6 +222,19 @@ header {
                 cursor: pointer;
               }
             }
+          }
+        }
+        .block {
+          padding: 0 0 1rem 0;
+          .title {
+            @include flex(space-between, flex-start);
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 0.5rem 0;
+          }
+          .subtitle {
+            @include flex(space-between, flex-start);
+            font-size: 1.2rem;
           }
         }
       }

@@ -2,6 +2,7 @@ const { gql } = require("apollo-server");
 
 const resumeTypeDef = require("./resume");
 const sectionTypeDef = require("./section");
+const blockTypeDef = require("./block");
 
 const typeDefs = gql`
   type Query {
@@ -12,4 +13,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = [typeDefs, resumeTypeDef, sectionTypeDef];
+module.exports = [typeDefs, resumeTypeDef, sectionTypeDef, blockTypeDef];

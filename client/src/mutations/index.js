@@ -66,3 +66,28 @@ export const UPDATE_SECTION_ORDER = gql`
     }
   }
 `;
+
+export const CREATE_BLOCK = gql`
+  mutation createBlock(
+    $title1: String!
+    $title2: String
+    $subtitle1: String
+    $subtitle2: String
+    $section: ID!
+  ) {
+    createBlock(
+      title1: $title1
+      title2: $title2
+      subtitle1: $subtitle1
+      subtitle2: $subtitle2
+      section: $section
+    ) {
+      id
+      section
+      title1
+      title2
+      subtitle1
+      subtitle2
+    }
+  }
+`;

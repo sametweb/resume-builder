@@ -22,5 +22,6 @@ module.exports = gql`
     resume: Resume!
     title: String!
     order: Int!
+    blocks: [Block]!
   }
 `;

@@ -51,5 +51,8 @@ module.exports = {
   },
   Section: {
     resume: () => {},
+    blocks: ({ id }, args, { prisma }) => {
+      return prisma.section({ id }).blocks();
+    },
   },
 };

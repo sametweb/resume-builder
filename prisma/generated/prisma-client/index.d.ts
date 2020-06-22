@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  block: (where?: BlockWhereInput) => Promise<boolean>;
   resume: (where?: ResumeWhereInput) => Promise<boolean>;
   section: (where?: SectionWhereInput) => Promise<boolean>;
 }
@@ -39,6 +40,25 @@ export interface Prisma {
    * Queries
    */
 
+  block: (where: BlockWhereUniqueInput) => BlockNullablePromise;
+  blocks: (args?: {
+    where?: BlockWhereInput;
+    orderBy?: BlockOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Block>;
+  blocksConnection: (args?: {
+    where?: BlockWhereInput;
+    orderBy?: BlockOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => BlockConnectionPromise;
   resume: (where: ResumeWhereUniqueInput) => ResumeNullablePromise;
   resumes: (args?: {
     where?: ResumeWhereInput;
@@ -83,6 +103,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createBlock: (data: BlockCreateInput) => BlockPromise;
+  updateBlock: (args: {
+    data: BlockUpdateInput;
+    where: BlockWhereUniqueInput;
+  }) => BlockPromise;
+  updateManyBlocks: (args: {
+    data: BlockUpdateManyMutationInput;
+    where?: BlockWhereInput;
+  }) => BatchPayloadPromise;
+  upsertBlock: (args: {
+    where: BlockWhereUniqueInput;
+    create: BlockCreateInput;
+    update: BlockUpdateInput;
+  }) => BlockPromise;
+  deleteBlock: (where: BlockWhereUniqueInput) => BlockPromise;
+  deleteManyBlocks: (where?: BlockWhereInput) => BatchPayloadPromise;
   createResume: (data: ResumeCreateInput) => ResumePromise;
   updateResume: (args: {
     data: ResumeUpdateInput;
@@ -124,6 +160,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  block: (
+    where?: BlockSubscriptionWhereInput
+  ) => BlockSubscriptionPayloadSubscription;
   resume: (
     where?: ResumeSubscriptionWhereInput
   ) => ResumeSubscriptionPayloadSubscription;
@@ -148,6 +187,18 @@ export type SectionOrderByInput =
   | "order_ASC"
   | "order_DESC";
 
+export type BlockOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "title1_ASC"
+  | "title1_DESC"
+  | "title2_ASC"
+  | "title2_DESC"
+  | "subtitle1_ASC"
+  | "subtitle1_DESC"
+  | "subtitle2_ASC"
+  | "subtitle2_DESC";
+
 export type ResumeOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -158,7 +209,7 @@ export type ResumeOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type ResumeWhereUniqueInput = AtLeastOne<{
+export type BlockWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -200,6 +251,9 @@ export interface SectionWhereInput {
   order_lte?: Maybe<Int>;
   order_gt?: Maybe<Int>;
   order_gte?: Maybe<Int>;
+  blocks_every?: Maybe<BlockWhereInput>;
+  blocks_some?: Maybe<BlockWhereInput>;
+  blocks_none?: Maybe<BlockWhereInput>;
   AND?: Maybe<SectionWhereInput[] | SectionWhereInput>;
   OR?: Maybe<SectionWhereInput[] | SectionWhereInput>;
   NOT?: Maybe<SectionWhereInput[] | SectionWhereInput>;
@@ -256,9 +310,172 @@ export interface ResumeWhereInput {
   NOT?: Maybe<ResumeWhereInput[] | ResumeWhereInput>;
 }
 
+export interface BlockWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  section?: Maybe<SectionWhereInput>;
+  title1?: Maybe<String>;
+  title1_not?: Maybe<String>;
+  title1_in?: Maybe<String[] | String>;
+  title1_not_in?: Maybe<String[] | String>;
+  title1_lt?: Maybe<String>;
+  title1_lte?: Maybe<String>;
+  title1_gt?: Maybe<String>;
+  title1_gte?: Maybe<String>;
+  title1_contains?: Maybe<String>;
+  title1_not_contains?: Maybe<String>;
+  title1_starts_with?: Maybe<String>;
+  title1_not_starts_with?: Maybe<String>;
+  title1_ends_with?: Maybe<String>;
+  title1_not_ends_with?: Maybe<String>;
+  title2?: Maybe<String>;
+  title2_not?: Maybe<String>;
+  title2_in?: Maybe<String[] | String>;
+  title2_not_in?: Maybe<String[] | String>;
+  title2_lt?: Maybe<String>;
+  title2_lte?: Maybe<String>;
+  title2_gt?: Maybe<String>;
+  title2_gte?: Maybe<String>;
+  title2_contains?: Maybe<String>;
+  title2_not_contains?: Maybe<String>;
+  title2_starts_with?: Maybe<String>;
+  title2_not_starts_with?: Maybe<String>;
+  title2_ends_with?: Maybe<String>;
+  title2_not_ends_with?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle1_not?: Maybe<String>;
+  subtitle1_in?: Maybe<String[] | String>;
+  subtitle1_not_in?: Maybe<String[] | String>;
+  subtitle1_lt?: Maybe<String>;
+  subtitle1_lte?: Maybe<String>;
+  subtitle1_gt?: Maybe<String>;
+  subtitle1_gte?: Maybe<String>;
+  subtitle1_contains?: Maybe<String>;
+  subtitle1_not_contains?: Maybe<String>;
+  subtitle1_starts_with?: Maybe<String>;
+  subtitle1_not_starts_with?: Maybe<String>;
+  subtitle1_ends_with?: Maybe<String>;
+  subtitle1_not_ends_with?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+  subtitle2_not?: Maybe<String>;
+  subtitle2_in?: Maybe<String[] | String>;
+  subtitle2_not_in?: Maybe<String[] | String>;
+  subtitle2_lt?: Maybe<String>;
+  subtitle2_lte?: Maybe<String>;
+  subtitle2_gt?: Maybe<String>;
+  subtitle2_gte?: Maybe<String>;
+  subtitle2_contains?: Maybe<String>;
+  subtitle2_not_contains?: Maybe<String>;
+  subtitle2_starts_with?: Maybe<String>;
+  subtitle2_not_starts_with?: Maybe<String>;
+  subtitle2_ends_with?: Maybe<String>;
+  subtitle2_not_ends_with?: Maybe<String>;
+  AND?: Maybe<BlockWhereInput[] | BlockWhereInput>;
+  OR?: Maybe<BlockWhereInput[] | BlockWhereInput>;
+  NOT?: Maybe<BlockWhereInput[] | BlockWhereInput>;
+}
+
+export type ResumeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export type SectionWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface BlockCreateInput {
+  id?: Maybe<ID_Input>;
+  section: SectionCreateOneWithoutBlocksInput;
+  title1: String;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+}
+
+export interface SectionCreateOneWithoutBlocksInput {
+  create?: Maybe<SectionCreateWithoutBlocksInput>;
+  connect?: Maybe<SectionWhereUniqueInput>;
+}
+
+export interface SectionCreateWithoutBlocksInput {
+  id?: Maybe<ID_Input>;
+  resume: ResumeCreateOneWithoutSectionsInput;
+  title: String;
+  order: Int;
+}
+
+export interface ResumeCreateOneWithoutSectionsInput {
+  create?: Maybe<ResumeCreateWithoutSectionsInput>;
+  connect?: Maybe<ResumeWhereUniqueInput>;
+}
+
+export interface ResumeCreateWithoutSectionsInput {
+  id?: Maybe<ID_Input>;
+  user: String;
+  title: String;
+}
+
+export interface BlockUpdateInput {
+  section?: Maybe<SectionUpdateOneRequiredWithoutBlocksInput>;
+  title1?: Maybe<String>;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+}
+
+export interface SectionUpdateOneRequiredWithoutBlocksInput {
+  create?: Maybe<SectionCreateWithoutBlocksInput>;
+  update?: Maybe<SectionUpdateWithoutBlocksDataInput>;
+  upsert?: Maybe<SectionUpsertWithoutBlocksInput>;
+  connect?: Maybe<SectionWhereUniqueInput>;
+}
+
+export interface SectionUpdateWithoutBlocksDataInput {
+  resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
+  title?: Maybe<String>;
+  order?: Maybe<Int>;
+}
+
+export interface ResumeUpdateOneRequiredWithoutSectionsInput {
+  create?: Maybe<ResumeCreateWithoutSectionsInput>;
+  update?: Maybe<ResumeUpdateWithoutSectionsDataInput>;
+  upsert?: Maybe<ResumeUpsertWithoutSectionsInput>;
+  connect?: Maybe<ResumeWhereUniqueInput>;
+}
+
+export interface ResumeUpdateWithoutSectionsDataInput {
+  user?: Maybe<String>;
+  title?: Maybe<String>;
+}
+
+export interface ResumeUpsertWithoutSectionsInput {
+  update: ResumeUpdateWithoutSectionsDataInput;
+  create: ResumeCreateWithoutSectionsInput;
+}
+
+export interface SectionUpsertWithoutBlocksInput {
+  update: SectionUpdateWithoutBlocksDataInput;
+  create: SectionCreateWithoutBlocksInput;
+}
+
+export interface BlockUpdateManyMutationInput {
+  title1?: Maybe<String>;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+}
 
 export interface ResumeCreateInput {
   id?: Maybe<ID_Input>;
@@ -278,6 +495,22 @@ export interface SectionCreateWithoutResumeInput {
   id?: Maybe<ID_Input>;
   title: String;
   order: Int;
+  blocks?: Maybe<BlockCreateManyWithoutSectionInput>;
+}
+
+export interface BlockCreateManyWithoutSectionInput {
+  create?: Maybe<
+    BlockCreateWithoutSectionInput[] | BlockCreateWithoutSectionInput
+  >;
+  connect?: Maybe<BlockWhereUniqueInput[] | BlockWhereUniqueInput>;
+}
+
+export interface BlockCreateWithoutSectionInput {
+  id?: Maybe<ID_Input>;
+  title1: String;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
 }
 
 export interface ResumeUpdateInput {
@@ -317,6 +550,135 @@ export interface SectionUpdateWithWhereUniqueWithoutResumeInput {
 export interface SectionUpdateWithoutResumeDataInput {
   title?: Maybe<String>;
   order?: Maybe<Int>;
+  blocks?: Maybe<BlockUpdateManyWithoutSectionInput>;
+}
+
+export interface BlockUpdateManyWithoutSectionInput {
+  create?: Maybe<
+    BlockCreateWithoutSectionInput[] | BlockCreateWithoutSectionInput
+  >;
+  delete?: Maybe<BlockWhereUniqueInput[] | BlockWhereUniqueInput>;
+  connect?: Maybe<BlockWhereUniqueInput[] | BlockWhereUniqueInput>;
+  set?: Maybe<BlockWhereUniqueInput[] | BlockWhereUniqueInput>;
+  disconnect?: Maybe<BlockWhereUniqueInput[] | BlockWhereUniqueInput>;
+  update?: Maybe<
+    | BlockUpdateWithWhereUniqueWithoutSectionInput[]
+    | BlockUpdateWithWhereUniqueWithoutSectionInput
+  >;
+  upsert?: Maybe<
+    | BlockUpsertWithWhereUniqueWithoutSectionInput[]
+    | BlockUpsertWithWhereUniqueWithoutSectionInput
+  >;
+  deleteMany?: Maybe<BlockScalarWhereInput[] | BlockScalarWhereInput>;
+  updateMany?: Maybe<
+    BlockUpdateManyWithWhereNestedInput[] | BlockUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface BlockUpdateWithWhereUniqueWithoutSectionInput {
+  where: BlockWhereUniqueInput;
+  data: BlockUpdateWithoutSectionDataInput;
+}
+
+export interface BlockUpdateWithoutSectionDataInput {
+  title1?: Maybe<String>;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+}
+
+export interface BlockUpsertWithWhereUniqueWithoutSectionInput {
+  where: BlockWhereUniqueInput;
+  update: BlockUpdateWithoutSectionDataInput;
+  create: BlockCreateWithoutSectionInput;
+}
+
+export interface BlockScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title1?: Maybe<String>;
+  title1_not?: Maybe<String>;
+  title1_in?: Maybe<String[] | String>;
+  title1_not_in?: Maybe<String[] | String>;
+  title1_lt?: Maybe<String>;
+  title1_lte?: Maybe<String>;
+  title1_gt?: Maybe<String>;
+  title1_gte?: Maybe<String>;
+  title1_contains?: Maybe<String>;
+  title1_not_contains?: Maybe<String>;
+  title1_starts_with?: Maybe<String>;
+  title1_not_starts_with?: Maybe<String>;
+  title1_ends_with?: Maybe<String>;
+  title1_not_ends_with?: Maybe<String>;
+  title2?: Maybe<String>;
+  title2_not?: Maybe<String>;
+  title2_in?: Maybe<String[] | String>;
+  title2_not_in?: Maybe<String[] | String>;
+  title2_lt?: Maybe<String>;
+  title2_lte?: Maybe<String>;
+  title2_gt?: Maybe<String>;
+  title2_gte?: Maybe<String>;
+  title2_contains?: Maybe<String>;
+  title2_not_contains?: Maybe<String>;
+  title2_starts_with?: Maybe<String>;
+  title2_not_starts_with?: Maybe<String>;
+  title2_ends_with?: Maybe<String>;
+  title2_not_ends_with?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle1_not?: Maybe<String>;
+  subtitle1_in?: Maybe<String[] | String>;
+  subtitle1_not_in?: Maybe<String[] | String>;
+  subtitle1_lt?: Maybe<String>;
+  subtitle1_lte?: Maybe<String>;
+  subtitle1_gt?: Maybe<String>;
+  subtitle1_gte?: Maybe<String>;
+  subtitle1_contains?: Maybe<String>;
+  subtitle1_not_contains?: Maybe<String>;
+  subtitle1_starts_with?: Maybe<String>;
+  subtitle1_not_starts_with?: Maybe<String>;
+  subtitle1_ends_with?: Maybe<String>;
+  subtitle1_not_ends_with?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+  subtitle2_not?: Maybe<String>;
+  subtitle2_in?: Maybe<String[] | String>;
+  subtitle2_not_in?: Maybe<String[] | String>;
+  subtitle2_lt?: Maybe<String>;
+  subtitle2_lte?: Maybe<String>;
+  subtitle2_gt?: Maybe<String>;
+  subtitle2_gte?: Maybe<String>;
+  subtitle2_contains?: Maybe<String>;
+  subtitle2_not_contains?: Maybe<String>;
+  subtitle2_starts_with?: Maybe<String>;
+  subtitle2_not_starts_with?: Maybe<String>;
+  subtitle2_ends_with?: Maybe<String>;
+  subtitle2_not_ends_with?: Maybe<String>;
+  AND?: Maybe<BlockScalarWhereInput[] | BlockScalarWhereInput>;
+  OR?: Maybe<BlockScalarWhereInput[] | BlockScalarWhereInput>;
+  NOT?: Maybe<BlockScalarWhereInput[] | BlockScalarWhereInput>;
+}
+
+export interface BlockUpdateManyWithWhereNestedInput {
+  where: BlockScalarWhereInput;
+  data: BlockUpdateManyDataInput;
+}
+
+export interface BlockUpdateManyDataInput {
+  title1?: Maybe<String>;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
 }
 
 export interface SectionUpsertWithWhereUniqueWithoutResumeInput {
@@ -387,45 +749,30 @@ export interface SectionCreateInput {
   resume: ResumeCreateOneWithoutSectionsInput;
   title: String;
   order: Int;
-}
-
-export interface ResumeCreateOneWithoutSectionsInput {
-  create?: Maybe<ResumeCreateWithoutSectionsInput>;
-  connect?: Maybe<ResumeWhereUniqueInput>;
-}
-
-export interface ResumeCreateWithoutSectionsInput {
-  id?: Maybe<ID_Input>;
-  user: String;
-  title: String;
+  blocks?: Maybe<BlockCreateManyWithoutSectionInput>;
 }
 
 export interface SectionUpdateInput {
   resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
   title?: Maybe<String>;
   order?: Maybe<Int>;
-}
-
-export interface ResumeUpdateOneRequiredWithoutSectionsInput {
-  create?: Maybe<ResumeCreateWithoutSectionsInput>;
-  update?: Maybe<ResumeUpdateWithoutSectionsDataInput>;
-  upsert?: Maybe<ResumeUpsertWithoutSectionsInput>;
-  connect?: Maybe<ResumeWhereUniqueInput>;
-}
-
-export interface ResumeUpdateWithoutSectionsDataInput {
-  user?: Maybe<String>;
-  title?: Maybe<String>;
-}
-
-export interface ResumeUpsertWithoutSectionsInput {
-  update: ResumeUpdateWithoutSectionsDataInput;
-  create: ResumeCreateWithoutSectionsInput;
+  blocks?: Maybe<BlockUpdateManyWithoutSectionInput>;
 }
 
 export interface SectionUpdateManyMutationInput {
   title?: Maybe<String>;
   order?: Maybe<Int>;
+}
+
+export interface BlockSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BlockWhereInput>;
+  AND?: Maybe<BlockSubscriptionWhereInput[] | BlockSubscriptionWhereInput>;
+  OR?: Maybe<BlockSubscriptionWhereInput[] | BlockSubscriptionWhereInput>;
+  NOT?: Maybe<BlockSubscriptionWhereInput[] | BlockSubscriptionWhereInput>;
 }
 
 export interface ResumeSubscriptionWhereInput {
@@ -452,6 +799,103 @@ export interface SectionSubscriptionWhereInput {
 
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface Block {
+  id: ID_Output;
+  title1: String;
+  title2?: String;
+  subtitle1?: String;
+  subtitle2?: String;
+}
+
+export interface BlockPromise extends Promise<Block>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  section: <T = SectionPromise>() => T;
+  title1: () => Promise<String>;
+  title2: () => Promise<String>;
+  subtitle1: () => Promise<String>;
+  subtitle2: () => Promise<String>;
+}
+
+export interface BlockSubscription
+  extends Promise<AsyncIterator<Block>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  section: <T = SectionSubscription>() => T;
+  title1: () => Promise<AsyncIterator<String>>;
+  title2: () => Promise<AsyncIterator<String>>;
+  subtitle1: () => Promise<AsyncIterator<String>>;
+  subtitle2: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BlockNullablePromise
+  extends Promise<Block | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  section: <T = SectionPromise>() => T;
+  title1: () => Promise<String>;
+  title2: () => Promise<String>;
+  subtitle1: () => Promise<String>;
+  subtitle2: () => Promise<String>;
+}
+
+export interface Section {
+  id: ID_Output;
+  title: String;
+  order: Int;
+}
+
+export interface SectionPromise extends Promise<Section>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  resume: <T = ResumePromise>() => T;
+  title: () => Promise<String>;
+  order: () => Promise<Int>;
+  blocks: <T = FragmentableArray<Block>>(args?: {
+    where?: BlockWhereInput;
+    orderBy?: BlockOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface SectionSubscription
+  extends Promise<AsyncIterator<Section>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  resume: <T = ResumeSubscription>() => T;
+  title: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
+  blocks: <T = Promise<AsyncIterator<BlockSubscription>>>(args?: {
+    where?: BlockWhereInput;
+    orderBy?: BlockOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface SectionNullablePromise
+  extends Promise<Section | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  resume: <T = ResumePromise>() => T;
+  title: () => Promise<String>;
+  order: () => Promise<Int>;
+  blocks: <T = FragmentableArray<Block>>(args?: {
+    where?: BlockWhereInput;
+    orderBy?: BlockOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface Resume {
@@ -509,56 +953,25 @@ export interface ResumeNullablePromise
   }) => T;
 }
 
-export interface Section {
-  id: ID_Output;
-  title: String;
-  order: Int;
-}
-
-export interface SectionPromise extends Promise<Section>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  resume: <T = ResumePromise>() => T;
-  title: () => Promise<String>;
-  order: () => Promise<Int>;
-}
-
-export interface SectionSubscription
-  extends Promise<AsyncIterator<Section>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  resume: <T = ResumeSubscription>() => T;
-  title: () => Promise<AsyncIterator<String>>;
-  order: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface SectionNullablePromise
-  extends Promise<Section | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  resume: <T = ResumePromise>() => T;
-  title: () => Promise<String>;
-  order: () => Promise<Int>;
-}
-
-export interface ResumeConnection {
+export interface BlockConnection {
   pageInfo: PageInfo;
-  edges: ResumeEdge[];
+  edges: BlockEdge[];
 }
 
-export interface ResumeConnectionPromise
-  extends Promise<ResumeConnection>,
+export interface BlockConnectionPromise
+  extends Promise<BlockConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ResumeEdge>>() => T;
-  aggregate: <T = AggregateResumePromise>() => T;
+  edges: <T = FragmentableArray<BlockEdge>>() => T;
+  aggregate: <T = AggregateBlockPromise>() => T;
 }
 
-export interface ResumeConnectionSubscription
-  extends Promise<AsyncIterator<ResumeConnection>>,
+export interface BlockConnectionSubscription
+  extends Promise<AsyncIterator<BlockConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ResumeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateResumeSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BlockEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBlockSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -582,6 +995,60 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BlockEdge {
+  node: Block;
+  cursor: String;
+}
+
+export interface BlockEdgePromise extends Promise<BlockEdge>, Fragmentable {
+  node: <T = BlockPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface BlockEdgeSubscription
+  extends Promise<AsyncIterator<BlockEdge>>,
+    Fragmentable {
+  node: <T = BlockSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateBlock {
+  count: Int;
+}
+
+export interface AggregateBlockPromise
+  extends Promise<AggregateBlock>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateBlockSubscription
+  extends Promise<AsyncIterator<AggregateBlock>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ResumeConnection {
+  pageInfo: PageInfo;
+  edges: ResumeEdge[];
+}
+
+export interface ResumeConnectionPromise
+  extends Promise<ResumeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ResumeEdge>>() => T;
+  aggregate: <T = AggregateResumePromise>() => T;
+}
+
+export interface ResumeConnectionSubscription
+  extends Promise<AsyncIterator<ResumeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ResumeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateResumeSubscription>() => T;
 }
 
 export interface ResumeEdge {
@@ -685,6 +1152,59 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface BlockSubscriptionPayload {
+  mutation: MutationType;
+  node: Block;
+  updatedFields: String[];
+  previousValues: BlockPreviousValues;
+}
+
+export interface BlockSubscriptionPayloadPromise
+  extends Promise<BlockSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = BlockPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = BlockPreviousValuesPromise>() => T;
+}
+
+export interface BlockSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<BlockSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = BlockSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = BlockPreviousValuesSubscription>() => T;
+}
+
+export interface BlockPreviousValues {
+  id: ID_Output;
+  title1: String;
+  title2?: String;
+  subtitle1?: String;
+  subtitle2?: String;
+}
+
+export interface BlockPreviousValuesPromise
+  extends Promise<BlockPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title1: () => Promise<String>;
+  title2: () => Promise<String>;
+  subtitle1: () => Promise<String>;
+  subtitle2: () => Promise<String>;
+}
+
+export interface BlockPreviousValuesSubscription
+  extends Promise<AsyncIterator<BlockPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title1: () => Promise<AsyncIterator<String>>;
+  title2: () => Promise<AsyncIterator<String>>;
+  subtitle1: () => Promise<AsyncIterator<String>>;
+  subtitle2: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ResumeSubscriptionPayload {
@@ -815,6 +1335,10 @@ export const models: Model[] = [
   },
   {
     name: "Section",
+    embedded: false
+  },
+  {
+    name: "Block",
     embedded: false
   }
 ];

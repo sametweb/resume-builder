@@ -2,7 +2,7 @@ type Resume {
   id: ID! @id
   user: String!
   title: String!
-  sections: [Section!]!
+  sections: [Section!]! @relation(onDelete: CASCADE)
 }
 
 type Section {
@@ -10,4 +10,14 @@ type Section {
   resume: Resume! @relation(link: INLINE)
   title: String!
   order: Int!
+  blocks: [Block!]! @relation(onDelete: CASCADE)
+}
+
+type Block {
+  id: ID! @id
+  section: Section! @relation(link: INLINE)
+  title1: String!
+  title2: String
+  subtitle1: String
+  subtitle2: String
 }

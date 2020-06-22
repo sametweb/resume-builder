@@ -17,6 +17,8 @@ function EditResume() {
     variables: { id, user: user?.email },
   });
 
+  console.log({ resumeData: data });
+
   const [deleteSection] = useMutation(DELETE_SECTION, {
     refetchQueries: ["resumeById"],
   });
@@ -90,6 +92,9 @@ function EditResume() {
                   {section.title}
                   <span className="section-actions">
                     <span role="img" aria-label="edit section title">
+                      ➕
+                    </span>
+                    <span role="img" aria-label="edit section title">
                       📝
                     </span>
                     <span
@@ -103,6 +108,18 @@ function EditResume() {
                     </span>
                   </span>
                 </h3>
+                {section.blocks.map((block) => (
+                  <div className="block">
+                    <div className="title">
+                      <h4>{block.title1}</h4>
+                      <h4>{block.title2}</h4>
+                    </div>
+                    <div className="subtitle">
+                      <h4>{block.subtitle1}</h4>
+                      <h4>{block.subtitle2}</h4>
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
         </div>

@@ -8,6 +8,14 @@ export const USER_RESUMES = gql`
       sections {
         id
         title
+        order
+        blocks {
+          id
+          title1
+          title2
+          subtitle1
+          subtitle2
+        }
       }
     }
   }
@@ -23,6 +31,13 @@ export const GET_RESUME_BY_ID = gql`
         id
         title
         order
+        blocks {
+          id
+          title1
+          title2
+          subtitle1
+          subtitle2
+        }
       }
     }
   }
