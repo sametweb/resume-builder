@@ -25,12 +25,12 @@ function AddSection({ resume }) {
     <div className="add-section">
       <form onSubmit={handleAddSection}>
         <label htmlFor="add-section-input">
-          <p>Add Section</p>
+          <p>Sections</p>
           <input
             id="add-section-input"
             value={sectionTitle}
             onChange={(e) => setSectionTitle(e.target.value)}
-            placeholder="section title"
+            placeholder="Add New Section"
           />
           <button>+</button>
         </label>

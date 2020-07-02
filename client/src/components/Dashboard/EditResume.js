@@ -27,6 +27,12 @@ function EditResume() {
     refetchQueries: ["resumeById"],
   });
 
+  const resetDrag = () => {
+    setDragged(null);
+    setDraggedOver(null);
+    setDroppedOn(null);
+  };
+
   useEffect(() => {
     user?.email && resumeById();
   }, [user, resumeById]);
@@ -41,13 +47,9 @@ function EditResume() {
           new_order: droppedOn?.order,
         },
       });
-      setDragged(null);
-      setDraggedOver(null);
-      setDroppedOn(null);
+      resetDrag();
     } else if (dragged?.id === droppedOn?.id) {
-      setDragged(null);
-      setDraggedOver(null);
-      setDroppedOn(null);
+      resetDrag();
     }
   }, [dragged, droppedOn, updateSectionOrder, id]);
 
@@ -109,7 +111,7 @@ function EditResume() {
                   </span>
                 </h3>
                 {section.blocks.map((block) => (
-                  <div className="block">
+                  <div className="block" draggable>
                     <div className="title">
                       <h4>{block.title1}</h4>
                       <h4>{block.title2}</h4>

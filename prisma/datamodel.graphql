@@ -20,4 +20,13 @@ type Block {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int!
+  bullets: [Bullet!]! @relation(onDelete: CASCADE)
+}
+
+type Bullet {
+  id: ID! @id
+  text: String!
+  order: Int!
+  block: Block! @relation(link: INLINE)
 }
