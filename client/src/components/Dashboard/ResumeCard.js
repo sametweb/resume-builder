@@ -11,7 +11,7 @@ function ResumeCard({ resume }) {
   const { id, title } = resume;
 
   return (
-    <Link to={`/dashboard/edit/${id}`}>
+    <Link to={`/dashboard/edit-resume/${id}`}>
       <div key={id} className="card">
         <div className="header">
           <h4>{title}</h4>

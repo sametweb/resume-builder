@@ -206,10 +206,15 @@ header {
         }
         h3 {
           @include flex(space-between, flex-start);
-          font-size: 1.4rem;
+          font-size: 1.5rem;
           font-weight: bold;
           text-transform: uppercase;
           border-bottom: 1px solid #ccc;
+          margin: 0 0 0.5rem 0;
+          cursor: grab;
+          &:active {
+            cursor: grabbing;
+          }
           .section-actions {
             display: none;
           }
@@ -229,12 +234,21 @@ header {
           .title {
             @include flex(space-between, flex-start);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             padding: 0.5rem 0;
           }
           .subtitle {
             @include flex(space-between, flex-start);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+          }
+          .bullets {
+            padding: 0.6rem 0 0.4rem 0;
+            list-style: square inside;
+            li {
+              font-size: 1.2rem;
+              padding: 0.3rem 0;
+              margin: 0 0 0 0.2rem;
+            }
           }
         }
       }

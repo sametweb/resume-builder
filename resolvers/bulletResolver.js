@@ -1,4 +1,13 @@
 module.exports = {
   Query: {},
-  Mutation: {},
+  Mutation: {
+    createBullet: (parent, args, { prisma }) => {
+      const { text, order, block } = args;
+      return prisma.createBullet({
+        text,
+        order,
+        block: { connect: { id: block } },
+      });
+    },
+  },
 };

@@ -1,11 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {
+  useParams,
+  useLocation,
+  useHistory,
+  Route,
+  useRouteMatch,
+} from "react-router-dom";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 
 import { GET_RESUME_BY_ID } from "../../queries";
 import { AuthContext } from "../../App";
 import { DELETE_SECTION, UPDATE_SECTION_ORDER } from "../../mutations";
 import AddSection from "./AddSection";
+import EditSection from "./EditSection";
 
 function EditResume() {
   const { id } = useParams();
@@ -17,7 +24,8 @@ function EditResume() {
     variables: { id, user: user?.email },
   });
 
-  console.log({ resumeData: data });
+  const { pathname } = useLocation();
+  const history = useHistory();
 
   const [deleteSection] = useMutation(DELETE_SECTION, {
     refetchQueries: ["resumeById"],
@@ -63,6 +71,10 @@ function EditResume() {
           <AddSection resume={data?.resumeById} />
         </div>
         <div className="paper">
+          <Route
+            path="/dashboard/edit-resume/:id/edit-section/:id"
+            component={EditSection}
+          />
           {data?.resumeById.sections
             .sort((a, b) => a.order - b.order)
             .map((section) => (
@@ -93,10 +105,13 @@ function EditResume() {
                 >
                   {section.title}
                   <span className="section-actions">
-                    <span role="img" aria-label="edit section title">
-                      ➕
-                    </span>
-                    <span role="img" aria-label="edit section title">
+                    <span
+                      role="img"
+                      aria-label="edit section title"
+                      onClick={() =>
+                        history.push(`${pathname}/edit-section/${section.id}`)
+                      }
+                    >
                       📝
                     </span>
                     <span
@@ -121,7 +136,9 @@ function EditResume() {
                       <h4>{block.subtitle2}</h4>
                     </div>
                     <ul className="bullets">
-                      <li>{block.bullets.map((bullet) => bullet.text)}</li>
+                      {block.bullets.map((bullet) => (
+                        <li>{bullet.text}</li>
+                      ))}
                     </ul>
                   </div>
                 ))}
