@@ -15,6 +15,11 @@ export const USER_RESUMES = gql`
           title2
           subtitle1
           subtitle2
+          bullets {
+            id
+            text
+            order
+          }
         }
       }
     }
@@ -37,6 +42,11 @@ export const GET_RESUME_BY_ID = gql`
           title2
           subtitle1
           subtitle2
+          bullets {
+            id
+            text
+            order
+          }
         }
       }
     }

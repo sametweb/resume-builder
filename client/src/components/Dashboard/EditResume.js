@@ -111,7 +111,7 @@ function EditResume() {
                   </span>
                 </h3>
                 {section.blocks.map((block) => (
-                  <div className="block" draggable>
+                  <div className="block" key={block.id}>
                     <div className="title">
                       <h4>{block.title1}</h4>
                       <h4>{block.title2}</h4>
@@ -120,6 +120,9 @@ function EditResume() {
                       <h4>{block.subtitle1}</h4>
                       <h4>{block.subtitle2}</h4>
                     </div>
+                    <ul className="bullets">
+                      <li>{block.bullets.map((bullet) => bullet.text)}</li>
+                    </ul>
                   </div>
                 ))}
               </div>

@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   block: (where?: BlockWhereInput) => Promise<boolean>;
+  bullet: (where?: BulletWhereInput) => Promise<boolean>;
   resume: (where?: ResumeWhereInput) => Promise<boolean>;
   section: (where?: SectionWhereInput) => Promise<boolean>;
 }
@@ -59,6 +60,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => BlockConnectionPromise;
+  bullet: (where: BulletWhereUniqueInput) => BulletNullablePromise;
+  bullets: (args?: {
+    where?: BulletWhereInput;
+    orderBy?: BulletOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Bullet>;
+  bulletsConnection: (args?: {
+    where?: BulletWhereInput;
+    orderBy?: BulletOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => BulletConnectionPromise;
   resume: (where: ResumeWhereUniqueInput) => ResumeNullablePromise;
   resumes: (args?: {
     where?: ResumeWhereInput;
@@ -119,6 +139,22 @@ export interface Prisma {
   }) => BlockPromise;
   deleteBlock: (where: BlockWhereUniqueInput) => BlockPromise;
   deleteManyBlocks: (where?: BlockWhereInput) => BatchPayloadPromise;
+  createBullet: (data: BulletCreateInput) => BulletPromise;
+  updateBullet: (args: {
+    data: BulletUpdateInput;
+    where: BulletWhereUniqueInput;
+  }) => BulletPromise;
+  updateManyBullets: (args: {
+    data: BulletUpdateManyMutationInput;
+    where?: BulletWhereInput;
+  }) => BatchPayloadPromise;
+  upsertBullet: (args: {
+    where: BulletWhereUniqueInput;
+    create: BulletCreateInput;
+    update: BulletUpdateInput;
+  }) => BulletPromise;
+  deleteBullet: (where: BulletWhereUniqueInput) => BulletPromise;
+  deleteManyBullets: (where?: BulletWhereInput) => BatchPayloadPromise;
   createResume: (data: ResumeCreateInput) => ResumePromise;
   updateResume: (args: {
     data: ResumeUpdateInput;
@@ -163,6 +199,9 @@ export interface Subscription {
   block: (
     where?: BlockSubscriptionWhereInput
   ) => BlockSubscriptionPayloadSubscription;
+  bullet: (
+    where?: BulletSubscriptionWhereInput
+  ) => BulletSubscriptionPayloadSubscription;
   resume: (
     where?: ResumeSubscriptionWhereInput
   ) => ResumeSubscriptionPayloadSubscription;
@@ -197,7 +236,17 @@ export type BlockOrderByInput =
   | "subtitle1_ASC"
   | "subtitle1_DESC"
   | "subtitle2_ASC"
-  | "subtitle2_DESC";
+  | "subtitle2_DESC"
+  | "order_ASC"
+  | "order_DESC";
+
+export type BulletOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "text_ASC"
+  | "text_DESC"
+  | "order_ASC"
+  | "order_DESC";
 
 export type ResumeOrderByInput =
   | "id_ASC"
@@ -382,10 +431,68 @@ export interface BlockWhereInput {
   subtitle2_not_starts_with?: Maybe<String>;
   subtitle2_ends_with?: Maybe<String>;
   subtitle2_not_ends_with?: Maybe<String>;
+  order?: Maybe<Int>;
+  order_not?: Maybe<Int>;
+  order_in?: Maybe<Int[] | Int>;
+  order_not_in?: Maybe<Int[] | Int>;
+  order_lt?: Maybe<Int>;
+  order_lte?: Maybe<Int>;
+  order_gt?: Maybe<Int>;
+  order_gte?: Maybe<Int>;
+  bullets_every?: Maybe<BulletWhereInput>;
+  bullets_some?: Maybe<BulletWhereInput>;
+  bullets_none?: Maybe<BulletWhereInput>;
   AND?: Maybe<BlockWhereInput[] | BlockWhereInput>;
   OR?: Maybe<BlockWhereInput[] | BlockWhereInput>;
   NOT?: Maybe<BlockWhereInput[] | BlockWhereInput>;
 }
+
+export interface BulletWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  order?: Maybe<Int>;
+  order_not?: Maybe<Int>;
+  order_in?: Maybe<Int[] | Int>;
+  order_not_in?: Maybe<Int[] | Int>;
+  order_lt?: Maybe<Int>;
+  order_lte?: Maybe<Int>;
+  order_gt?: Maybe<Int>;
+  order_gte?: Maybe<Int>;
+  block?: Maybe<BlockWhereInput>;
+  AND?: Maybe<BulletWhereInput[] | BulletWhereInput>;
+  OR?: Maybe<BulletWhereInput[] | BulletWhereInput>;
+  NOT?: Maybe<BulletWhereInput[] | BulletWhereInput>;
+}
+
+export type BulletWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export type ResumeWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -402,6 +509,8 @@ export interface BlockCreateInput {
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
+  order: Int;
+  bullets?: Maybe<BulletCreateManyWithoutBlockInput>;
 }
 
 export interface SectionCreateOneWithoutBlocksInput {
@@ -427,12 +536,27 @@ export interface ResumeCreateWithoutSectionsInput {
   title: String;
 }
 
+export interface BulletCreateManyWithoutBlockInput {
+  create?: Maybe<
+    BulletCreateWithoutBlockInput[] | BulletCreateWithoutBlockInput
+  >;
+  connect?: Maybe<BulletWhereUniqueInput[] | BulletWhereUniqueInput>;
+}
+
+export interface BulletCreateWithoutBlockInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+  order: Int;
+}
+
 export interface BlockUpdateInput {
   section?: Maybe<SectionUpdateOneRequiredWithoutBlocksInput>;
   title1?: Maybe<String>;
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
+  order?: Maybe<Int>;
+  bullets?: Maybe<BulletUpdateManyWithoutBlockInput>;
 }
 
 export interface SectionUpdateOneRequiredWithoutBlocksInput {
@@ -470,11 +594,157 @@ export interface SectionUpsertWithoutBlocksInput {
   create: SectionCreateWithoutBlocksInput;
 }
 
+export interface BulletUpdateManyWithoutBlockInput {
+  create?: Maybe<
+    BulletCreateWithoutBlockInput[] | BulletCreateWithoutBlockInput
+  >;
+  delete?: Maybe<BulletWhereUniqueInput[] | BulletWhereUniqueInput>;
+  connect?: Maybe<BulletWhereUniqueInput[] | BulletWhereUniqueInput>;
+  set?: Maybe<BulletWhereUniqueInput[] | BulletWhereUniqueInput>;
+  disconnect?: Maybe<BulletWhereUniqueInput[] | BulletWhereUniqueInput>;
+  update?: Maybe<
+    | BulletUpdateWithWhereUniqueWithoutBlockInput[]
+    | BulletUpdateWithWhereUniqueWithoutBlockInput
+  >;
+  upsert?: Maybe<
+    | BulletUpsertWithWhereUniqueWithoutBlockInput[]
+    | BulletUpsertWithWhereUniqueWithoutBlockInput
+  >;
+  deleteMany?: Maybe<BulletScalarWhereInput[] | BulletScalarWhereInput>;
+  updateMany?: Maybe<
+    | BulletUpdateManyWithWhereNestedInput[]
+    | BulletUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface BulletUpdateWithWhereUniqueWithoutBlockInput {
+  where: BulletWhereUniqueInput;
+  data: BulletUpdateWithoutBlockDataInput;
+}
+
+export interface BulletUpdateWithoutBlockDataInput {
+  text?: Maybe<String>;
+  order?: Maybe<Int>;
+}
+
+export interface BulletUpsertWithWhereUniqueWithoutBlockInput {
+  where: BulletWhereUniqueInput;
+  update: BulletUpdateWithoutBlockDataInput;
+  create: BulletCreateWithoutBlockInput;
+}
+
+export interface BulletScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  order?: Maybe<Int>;
+  order_not?: Maybe<Int>;
+  order_in?: Maybe<Int[] | Int>;
+  order_not_in?: Maybe<Int[] | Int>;
+  order_lt?: Maybe<Int>;
+  order_lte?: Maybe<Int>;
+  order_gt?: Maybe<Int>;
+  order_gte?: Maybe<Int>;
+  AND?: Maybe<BulletScalarWhereInput[] | BulletScalarWhereInput>;
+  OR?: Maybe<BulletScalarWhereInput[] | BulletScalarWhereInput>;
+  NOT?: Maybe<BulletScalarWhereInput[] | BulletScalarWhereInput>;
+}
+
+export interface BulletUpdateManyWithWhereNestedInput {
+  where: BulletScalarWhereInput;
+  data: BulletUpdateManyDataInput;
+}
+
+export interface BulletUpdateManyDataInput {
+  text?: Maybe<String>;
+  order?: Maybe<Int>;
+}
+
 export interface BlockUpdateManyMutationInput {
   title1?: Maybe<String>;
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
+  order?: Maybe<Int>;
+}
+
+export interface BulletCreateInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+  order: Int;
+  block: BlockCreateOneWithoutBulletsInput;
+}
+
+export interface BlockCreateOneWithoutBulletsInput {
+  create?: Maybe<BlockCreateWithoutBulletsInput>;
+  connect?: Maybe<BlockWhereUniqueInput>;
+}
+
+export interface BlockCreateWithoutBulletsInput {
+  id?: Maybe<ID_Input>;
+  section: SectionCreateOneWithoutBlocksInput;
+  title1: String;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+  order: Int;
+}
+
+export interface BulletUpdateInput {
+  text?: Maybe<String>;
+  order?: Maybe<Int>;
+  block?: Maybe<BlockUpdateOneRequiredWithoutBulletsInput>;
+}
+
+export interface BlockUpdateOneRequiredWithoutBulletsInput {
+  create?: Maybe<BlockCreateWithoutBulletsInput>;
+  update?: Maybe<BlockUpdateWithoutBulletsDataInput>;
+  upsert?: Maybe<BlockUpsertWithoutBulletsInput>;
+  connect?: Maybe<BlockWhereUniqueInput>;
+}
+
+export interface BlockUpdateWithoutBulletsDataInput {
+  section?: Maybe<SectionUpdateOneRequiredWithoutBlocksInput>;
+  title1?: Maybe<String>;
+  title2?: Maybe<String>;
+  subtitle1?: Maybe<String>;
+  subtitle2?: Maybe<String>;
+  order?: Maybe<Int>;
+}
+
+export interface BlockUpsertWithoutBulletsInput {
+  update: BlockUpdateWithoutBulletsDataInput;
+  create: BlockCreateWithoutBulletsInput;
+}
+
+export interface BulletUpdateManyMutationInput {
+  text?: Maybe<String>;
+  order?: Maybe<Int>;
 }
 
 export interface ResumeCreateInput {
@@ -511,6 +781,8 @@ export interface BlockCreateWithoutSectionInput {
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
+  order: Int;
+  bullets?: Maybe<BulletCreateManyWithoutBlockInput>;
 }
 
 export interface ResumeUpdateInput {
@@ -585,6 +857,8 @@ export interface BlockUpdateWithoutSectionDataInput {
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
+  order?: Maybe<Int>;
+  bullets?: Maybe<BulletUpdateManyWithoutBlockInput>;
 }
 
 export interface BlockUpsertWithWhereUniqueWithoutSectionInput {
@@ -664,6 +938,14 @@ export interface BlockScalarWhereInput {
   subtitle2_not_starts_with?: Maybe<String>;
   subtitle2_ends_with?: Maybe<String>;
   subtitle2_not_ends_with?: Maybe<String>;
+  order?: Maybe<Int>;
+  order_not?: Maybe<Int>;
+  order_in?: Maybe<Int[] | Int>;
+  order_not_in?: Maybe<Int[] | Int>;
+  order_lt?: Maybe<Int>;
+  order_lte?: Maybe<Int>;
+  order_gt?: Maybe<Int>;
+  order_gte?: Maybe<Int>;
   AND?: Maybe<BlockScalarWhereInput[] | BlockScalarWhereInput>;
   OR?: Maybe<BlockScalarWhereInput[] | BlockScalarWhereInput>;
   NOT?: Maybe<BlockScalarWhereInput[] | BlockScalarWhereInput>;
@@ -679,6 +961,7 @@ export interface BlockUpdateManyDataInput {
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
+  order?: Maybe<Int>;
 }
 
 export interface SectionUpsertWithWhereUniqueWithoutResumeInput {
@@ -775,6 +1058,17 @@ export interface BlockSubscriptionWhereInput {
   NOT?: Maybe<BlockSubscriptionWhereInput[] | BlockSubscriptionWhereInput>;
 }
 
+export interface BulletSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BulletWhereInput>;
+  AND?: Maybe<BulletSubscriptionWhereInput[] | BulletSubscriptionWhereInput>;
+  OR?: Maybe<BulletSubscriptionWhereInput[] | BulletSubscriptionWhereInput>;
+  NOT?: Maybe<BulletSubscriptionWhereInput[] | BulletSubscriptionWhereInput>;
+}
+
 export interface ResumeSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -807,6 +1101,7 @@ export interface Block {
   title2?: String;
   subtitle1?: String;
   subtitle2?: String;
+  order: Int;
 }
 
 export interface BlockPromise extends Promise<Block>, Fragmentable {
@@ -816,6 +1111,16 @@ export interface BlockPromise extends Promise<Block>, Fragmentable {
   title2: () => Promise<String>;
   subtitle1: () => Promise<String>;
   subtitle2: () => Promise<String>;
+  order: () => Promise<Int>;
+  bullets: <T = FragmentableArray<Bullet>>(args?: {
+    where?: BulletWhereInput;
+    orderBy?: BulletOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface BlockSubscription
@@ -827,6 +1132,16 @@ export interface BlockSubscription
   title2: () => Promise<AsyncIterator<String>>;
   subtitle1: () => Promise<AsyncIterator<String>>;
   subtitle2: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
+  bullets: <T = Promise<AsyncIterator<BulletSubscription>>>(args?: {
+    where?: BulletWhereInput;
+    orderBy?: BulletOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface BlockNullablePromise
@@ -838,6 +1153,16 @@ export interface BlockNullablePromise
   title2: () => Promise<String>;
   subtitle1: () => Promise<String>;
   subtitle2: () => Promise<String>;
+  order: () => Promise<Int>;
+  bullets: <T = FragmentableArray<Bullet>>(args?: {
+    where?: BulletWhereInput;
+    orderBy?: BulletOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface Section {
@@ -953,6 +1278,37 @@ export interface ResumeNullablePromise
   }) => T;
 }
 
+export interface Bullet {
+  id: ID_Output;
+  text: String;
+  order: Int;
+}
+
+export interface BulletPromise extends Promise<Bullet>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  order: () => Promise<Int>;
+  block: <T = BlockPromise>() => T;
+}
+
+export interface BulletSubscription
+  extends Promise<AsyncIterator<Bullet>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
+  block: <T = BlockSubscription>() => T;
+}
+
+export interface BulletNullablePromise
+  extends Promise<Bullet | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  order: () => Promise<Int>;
+  block: <T = BlockPromise>() => T;
+}
+
 export interface BlockConnection {
   pageInfo: PageInfo;
   edges: BlockEdge[];
@@ -1026,6 +1382,60 @@ export interface AggregateBlockPromise
 
 export interface AggregateBlockSubscription
   extends Promise<AsyncIterator<AggregateBlock>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface BulletConnection {
+  pageInfo: PageInfo;
+  edges: BulletEdge[];
+}
+
+export interface BulletConnectionPromise
+  extends Promise<BulletConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<BulletEdge>>() => T;
+  aggregate: <T = AggregateBulletPromise>() => T;
+}
+
+export interface BulletConnectionSubscription
+  extends Promise<AsyncIterator<BulletConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BulletEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBulletSubscription>() => T;
+}
+
+export interface BulletEdge {
+  node: Bullet;
+  cursor: String;
+}
+
+export interface BulletEdgePromise extends Promise<BulletEdge>, Fragmentable {
+  node: <T = BulletPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface BulletEdgeSubscription
+  extends Promise<AsyncIterator<BulletEdge>>,
+    Fragmentable {
+  node: <T = BulletSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateBullet {
+  count: Int;
+}
+
+export interface AggregateBulletPromise
+  extends Promise<AggregateBullet>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateBulletSubscription
+  extends Promise<AsyncIterator<AggregateBullet>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1185,6 +1595,7 @@ export interface BlockPreviousValues {
   title2?: String;
   subtitle1?: String;
   subtitle2?: String;
+  order: Int;
 }
 
 export interface BlockPreviousValuesPromise
@@ -1195,6 +1606,7 @@ export interface BlockPreviousValuesPromise
   title2: () => Promise<String>;
   subtitle1: () => Promise<String>;
   subtitle2: () => Promise<String>;
+  order: () => Promise<Int>;
 }
 
 export interface BlockPreviousValuesSubscription
@@ -1205,6 +1617,54 @@ export interface BlockPreviousValuesSubscription
   title2: () => Promise<AsyncIterator<String>>;
   subtitle1: () => Promise<AsyncIterator<String>>;
   subtitle2: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface BulletSubscriptionPayload {
+  mutation: MutationType;
+  node: Bullet;
+  updatedFields: String[];
+  previousValues: BulletPreviousValues;
+}
+
+export interface BulletSubscriptionPayloadPromise
+  extends Promise<BulletSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = BulletPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = BulletPreviousValuesPromise>() => T;
+}
+
+export interface BulletSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<BulletSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = BulletSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = BulletPreviousValuesSubscription>() => T;
+}
+
+export interface BulletPreviousValues {
+  id: ID_Output;
+  text: String;
+  order: Int;
+}
+
+export interface BulletPreviousValuesPromise
+  extends Promise<BulletPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  order: () => Promise<Int>;
+}
+
+export interface BulletPreviousValuesSubscription
+  extends Promise<AsyncIterator<BulletPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  order: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface ResumeSubscriptionPayload {
@@ -1339,6 +1799,10 @@ export const models: Model[] = [
   },
   {
     name: "Block",
+    embedded: false
+  },
+  {
+    name: "Bullet",
     embedded: false
   }
 ];

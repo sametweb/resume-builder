@@ -1,6 +1,7 @@
 module.exports = {
   Query: {
-    userResumes: (parent, { user }, { prisma }) => {
+    userResumes: async (parent, { user }, { prisma }) => {
+      const resumes = prisma.resumes({ where: { user } });
       return prisma.resumes({ where: { user } });
     },
     resumeById: async (parent, { id, user }, { prisma }) => {

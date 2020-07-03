@@ -11,6 +11,7 @@ module.exports = gql`
       title2: String
       subtitle1: String
       subtitle2: String
+      order: Int!
       section: ID!
     ): Block!
     deleteBlock(id: ID!): Block!
@@ -23,5 +24,6 @@ module.exports = gql`
     title2: String
     subtitle1: String
     subtitle2: String
+    bullets: [Bullet]!
   }
 `;

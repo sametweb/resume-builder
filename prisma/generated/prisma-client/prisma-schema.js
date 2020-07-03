@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregateBullet {
+  count: Int!
+}
+
 type AggregateResume {
   count: Int!
 }
@@ -26,6 +30,8 @@ type Block {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int!
+  bullets(where: BulletWhereInput, orderBy: BulletOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bullet!]
 }
 
 type BlockConnection {
@@ -41,11 +47,28 @@ input BlockCreateInput {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int!
+  bullets: BulletCreateManyWithoutBlockInput
 }
 
 input BlockCreateManyWithoutSectionInput {
   create: [BlockCreateWithoutSectionInput!]
   connect: [BlockWhereUniqueInput!]
+}
+
+input BlockCreateOneWithoutBulletsInput {
+  create: BlockCreateWithoutBulletsInput
+  connect: BlockWhereUniqueInput
+}
+
+input BlockCreateWithoutBulletsInput {
+  id: ID
+  section: SectionCreateOneWithoutBlocksInput!
+  title1: String!
+  title2: String
+  subtitle1: String
+  subtitle2: String
+  order: Int!
 }
 
 input BlockCreateWithoutSectionInput {
@@ -54,6 +77,8 @@ input BlockCreateWithoutSectionInput {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int!
+  bullets: BulletCreateManyWithoutBlockInput
 }
 
 type BlockEdge {
@@ -72,6 +97,8 @@ enum BlockOrderByInput {
   subtitle1_DESC
   subtitle2_ASC
   subtitle2_DESC
+  order_ASC
+  order_DESC
 }
 
 type BlockPreviousValues {
@@ -80,6 +107,7 @@ type BlockPreviousValues {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int!
 }
 
 input BlockScalarWhereInput {
@@ -153,6 +181,14 @@ input BlockScalarWhereInput {
   subtitle2_not_starts_with: String
   subtitle2_ends_with: String
   subtitle2_not_ends_with: String
+  order: Int
+  order_not: Int
+  order_in: [Int!]
+  order_not_in: [Int!]
+  order_lt: Int
+  order_lte: Int
+  order_gt: Int
+  order_gte: Int
   AND: [BlockScalarWhereInput!]
   OR: [BlockScalarWhereInput!]
   NOT: [BlockScalarWhereInput!]
@@ -182,6 +218,8 @@ input BlockUpdateInput {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int
+  bullets: BulletUpdateManyWithoutBlockInput
 }
 
 input BlockUpdateManyDataInput {
@@ -189,6 +227,7 @@ input BlockUpdateManyDataInput {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int
 }
 
 input BlockUpdateManyMutationInput {
@@ -196,6 +235,7 @@ input BlockUpdateManyMutationInput {
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int
 }
 
 input BlockUpdateManyWithoutSectionInput {
@@ -215,16 +255,39 @@ input BlockUpdateManyWithWhereNestedInput {
   data: BlockUpdateManyDataInput!
 }
 
+input BlockUpdateOneRequiredWithoutBulletsInput {
+  create: BlockCreateWithoutBulletsInput
+  update: BlockUpdateWithoutBulletsDataInput
+  upsert: BlockUpsertWithoutBulletsInput
+  connect: BlockWhereUniqueInput
+}
+
+input BlockUpdateWithoutBulletsDataInput {
+  section: SectionUpdateOneRequiredWithoutBlocksInput
+  title1: String
+  title2: String
+  subtitle1: String
+  subtitle2: String
+  order: Int
+}
+
 input BlockUpdateWithoutSectionDataInput {
   title1: String
   title2: String
   subtitle1: String
   subtitle2: String
+  order: Int
+  bullets: BulletUpdateManyWithoutBlockInput
 }
 
 input BlockUpdateWithWhereUniqueWithoutSectionInput {
   where: BlockWhereUniqueInput!
   data: BlockUpdateWithoutSectionDataInput!
+}
+
+input BlockUpsertWithoutBulletsInput {
+  update: BlockUpdateWithoutBulletsDataInput!
+  create: BlockCreateWithoutBulletsInput!
 }
 
 input BlockUpsertWithWhereUniqueWithoutSectionInput {
@@ -305,12 +368,230 @@ input BlockWhereInput {
   subtitle2_not_starts_with: String
   subtitle2_ends_with: String
   subtitle2_not_ends_with: String
+  order: Int
+  order_not: Int
+  order_in: [Int!]
+  order_not_in: [Int!]
+  order_lt: Int
+  order_lte: Int
+  order_gt: Int
+  order_gte: Int
+  bullets_every: BulletWhereInput
+  bullets_some: BulletWhereInput
+  bullets_none: BulletWhereInput
   AND: [BlockWhereInput!]
   OR: [BlockWhereInput!]
   NOT: [BlockWhereInput!]
 }
 
 input BlockWhereUniqueInput {
+  id: ID
+}
+
+type Bullet {
+  id: ID!
+  text: String!
+  order: Int!
+  block: Block!
+}
+
+type BulletConnection {
+  pageInfo: PageInfo!
+  edges: [BulletEdge]!
+  aggregate: AggregateBullet!
+}
+
+input BulletCreateInput {
+  id: ID
+  text: String!
+  order: Int!
+  block: BlockCreateOneWithoutBulletsInput!
+}
+
+input BulletCreateManyWithoutBlockInput {
+  create: [BulletCreateWithoutBlockInput!]
+  connect: [BulletWhereUniqueInput!]
+}
+
+input BulletCreateWithoutBlockInput {
+  id: ID
+  text: String!
+  order: Int!
+}
+
+type BulletEdge {
+  node: Bullet!
+  cursor: String!
+}
+
+enum BulletOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  order_ASC
+  order_DESC
+}
+
+type BulletPreviousValues {
+  id: ID!
+  text: String!
+  order: Int!
+}
+
+input BulletScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  order: Int
+  order_not: Int
+  order_in: [Int!]
+  order_not_in: [Int!]
+  order_lt: Int
+  order_lte: Int
+  order_gt: Int
+  order_gte: Int
+  AND: [BulletScalarWhereInput!]
+  OR: [BulletScalarWhereInput!]
+  NOT: [BulletScalarWhereInput!]
+}
+
+type BulletSubscriptionPayload {
+  mutation: MutationType!
+  node: Bullet
+  updatedFields: [String!]
+  previousValues: BulletPreviousValues
+}
+
+input BulletSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: BulletWhereInput
+  AND: [BulletSubscriptionWhereInput!]
+  OR: [BulletSubscriptionWhereInput!]
+  NOT: [BulletSubscriptionWhereInput!]
+}
+
+input BulletUpdateInput {
+  text: String
+  order: Int
+  block: BlockUpdateOneRequiredWithoutBulletsInput
+}
+
+input BulletUpdateManyDataInput {
+  text: String
+  order: Int
+}
+
+input BulletUpdateManyMutationInput {
+  text: String
+  order: Int
+}
+
+input BulletUpdateManyWithoutBlockInput {
+  create: [BulletCreateWithoutBlockInput!]
+  delete: [BulletWhereUniqueInput!]
+  connect: [BulletWhereUniqueInput!]
+  set: [BulletWhereUniqueInput!]
+  disconnect: [BulletWhereUniqueInput!]
+  update: [BulletUpdateWithWhereUniqueWithoutBlockInput!]
+  upsert: [BulletUpsertWithWhereUniqueWithoutBlockInput!]
+  deleteMany: [BulletScalarWhereInput!]
+  updateMany: [BulletUpdateManyWithWhereNestedInput!]
+}
+
+input BulletUpdateManyWithWhereNestedInput {
+  where: BulletScalarWhereInput!
+  data: BulletUpdateManyDataInput!
+}
+
+input BulletUpdateWithoutBlockDataInput {
+  text: String
+  order: Int
+}
+
+input BulletUpdateWithWhereUniqueWithoutBlockInput {
+  where: BulletWhereUniqueInput!
+  data: BulletUpdateWithoutBlockDataInput!
+}
+
+input BulletUpsertWithWhereUniqueWithoutBlockInput {
+  where: BulletWhereUniqueInput!
+  update: BulletUpdateWithoutBlockDataInput!
+  create: BulletCreateWithoutBlockInput!
+}
+
+input BulletWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  order: Int
+  order_not: Int
+  order_in: [Int!]
+  order_not_in: [Int!]
+  order_lt: Int
+  order_lte: Int
+  order_gt: Int
+  order_gte: Int
+  block: BlockWhereInput
+  AND: [BulletWhereInput!]
+  OR: [BulletWhereInput!]
+  NOT: [BulletWhereInput!]
+}
+
+input BulletWhereUniqueInput {
   id: ID
 }
 
@@ -323,6 +604,12 @@ type Mutation {
   upsertBlock(where: BlockWhereUniqueInput!, create: BlockCreateInput!, update: BlockUpdateInput!): Block!
   deleteBlock(where: BlockWhereUniqueInput!): Block
   deleteManyBlocks(where: BlockWhereInput): BatchPayload!
+  createBullet(data: BulletCreateInput!): Bullet!
+  updateBullet(data: BulletUpdateInput!, where: BulletWhereUniqueInput!): Bullet
+  updateManyBullets(data: BulletUpdateManyMutationInput!, where: BulletWhereInput): BatchPayload!
+  upsertBullet(where: BulletWhereUniqueInput!, create: BulletCreateInput!, update: BulletUpdateInput!): Bullet!
+  deleteBullet(where: BulletWhereUniqueInput!): Bullet
+  deleteManyBullets(where: BulletWhereInput): BatchPayload!
   createResume(data: ResumeCreateInput!): Resume!
   updateResume(data: ResumeUpdateInput!, where: ResumeWhereUniqueInput!): Resume
   updateManyResumes(data: ResumeUpdateManyMutationInput!, where: ResumeWhereInput): BatchPayload!
@@ -358,6 +645,9 @@ type Query {
   block(where: BlockWhereUniqueInput!): Block
   blocks(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Block]!
   blocksConnection(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlockConnection!
+  bullet(where: BulletWhereUniqueInput!): Bullet
+  bullets(where: BulletWhereInput, orderBy: BulletOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bullet]!
+  bulletsConnection(where: BulletWhereInput, orderBy: BulletOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BulletConnection!
   resume(where: ResumeWhereUniqueInput!): Resume
   resumes(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Resume]!
   resumesConnection(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ResumeConnection!
@@ -766,6 +1056,7 @@ input SectionWhereUniqueInput {
 
 type Subscription {
   block(where: BlockSubscriptionWhereInput): BlockSubscriptionPayload
+  bullet(where: BulletSubscriptionWhereInput): BulletSubscriptionPayload
   resume(where: ResumeSubscriptionWhereInput): ResumeSubscriptionPayload
   section(where: SectionSubscriptionWhereInput): SectionSubscriptionPayload
 }
