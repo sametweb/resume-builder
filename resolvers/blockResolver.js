@@ -1,5 +1,12 @@
 module.exports = {
-  Query: {},
+  Query: {
+    sectionBlocks: async (parent, { section: id }, { prisma }) => {
+      const section = await prisma.section({ id });
+      const blocks = await prisma.section({ id }).blocks();
+
+      return { section: section.title, blocks: blocks || [] };
+    },
+  },
   Mutation: {
     createBlock: (parent, args, { prisma }) => {
       const { title1, title2, subtitle1, subtitle2, section, order } = args;

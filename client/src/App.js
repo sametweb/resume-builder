@@ -6,7 +6,6 @@ import "./style.scss";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Header";
 import EditResume from "./components/Dashboard/EditResume";
-import EditSection from "./components/Dashboard/EditSection";
 
 export const AuthContext = React.createContext();
 

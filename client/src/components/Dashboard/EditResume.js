@@ -1,11 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  Route,
-  useRouteMatch,
-} from "react-router-dom";
+import { useParams, useLocation, useHistory, Route } from "react-router-dom";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 
 import { GET_RESUME_BY_ID } from "../../queries";

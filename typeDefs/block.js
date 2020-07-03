@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 module.exports = gql`
   extend type Query {
-    sectionBlocks(section: ID!): [Block!]!
+    sectionBlocks(section: ID!): SectionBlock!
   }
 
   extend type Mutation {
@@ -19,11 +19,17 @@ module.exports = gql`
 
   type Block {
     id: ID!
-    section: Section!
     title1: String!
     title2: String
     subtitle1: String
     subtitle2: String
+    order: Int!
+    section: String!
     bullets: [Bullet]!
+  }
+
+  type SectionBlock {
+    section: String!
+    blocks: [Block!]!
   }
 `;

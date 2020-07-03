@@ -73,6 +73,7 @@ export const CREATE_BLOCK = gql`
     $title2: String
     $subtitle1: String
     $subtitle2: String
+    $order: Int!
     $section: ID!
   ) {
     createBlock(
@@ -80,14 +81,10 @@ export const CREATE_BLOCK = gql`
       title2: $title2
       subtitle1: $subtitle1
       subtitle2: $subtitle2
+      order: $order
       section: $section
     ) {
       id
-      section
-      title1
-      title2
-      subtitle1
-      subtitle2
     }
   }
 `;

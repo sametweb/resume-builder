@@ -52,3 +52,24 @@ export const GET_RESUME_BY_ID = gql`
     }
   }
 `;
+
+export const SECTION_BLOCKS = gql`
+  query sectionBlocks($section: ID!) {
+    sectionBlocks(section: $section) {
+      section
+      blocks {
+        id
+        title1
+        title2
+        subtitle1
+        subtitle2
+        order
+        bullets {
+          id
+          text
+          order
+        }
+      }
+    }
+  }
+`;
