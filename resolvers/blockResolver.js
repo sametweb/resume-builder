@@ -20,6 +20,14 @@ module.exports = {
         section: { connect: { id: section } },
       });
     },
+    updateBlock: (parent, args, { prisma }) => {
+      const { id, title1, title2, subtitle1, subtitle2 } = args;
+
+      return prisma.updateBlock({
+        where: { id },
+        data: { title1, title2, subtitle1, subtitle2 },
+      });
+    },
   },
   Block: {
     bullets: (parent, args, { prisma }) => {

@@ -283,9 +283,11 @@ header {
           }
           .section {
             .new-block-form {
+              width: 100%;
               .title,
               .subtitle {
                 @include flex(space-between, center);
+                padding: 0;
               }
               input {
                 border: 1px solid #ccc;
@@ -303,6 +305,26 @@ header {
               }
               input[name="title1"]:invalid {
                 border: 1px solid $dark;
+              }
+            }
+            .blocks {
+              .block {
+                @include flex(space-between, center);
+                border-bottom: 1px solid $dark;
+                padding: 0.5rem;
+                .actions {
+                  font-size: 1.4rem;
+                  width: 5rem;
+                  span {
+                    cursor: pointer;
+                  }
+                }
+                .block-content {
+                  width: 100%;
+                }
+                &:hover {
+                  background-color: rgba(0, 0, 0, 0.1);
+                }
               }
             }
           }

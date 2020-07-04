@@ -14,6 +14,14 @@ module.exports = gql`
       order: Int!
       section: ID!
     ): Block!
+    updateBlock(
+      id: ID!
+      title1: String!
+      title2: String
+      subtitle1: String
+      subtitle2: String
+    ): Block!
+
     deleteBlock(id: ID!): Block!
   }
 

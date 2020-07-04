@@ -88,3 +88,23 @@ export const CREATE_BLOCK = gql`
     }
   }
 `;
+
+export const UPDATE_BLOCK = gql`
+  mutation updateBlock(
+    $id: ID!
+    $title1: String!
+    $title2: String
+    $subtitle1: String
+    $subtitle2: String
+  ) {
+    updateBlock(
+      id: $id
+      title1: $title1
+      title2: $title2
+      subtitle1: $subtitle1
+      subtitle2: $subtitle2
+    ) {
+      id
+    }
+  }
+`;
