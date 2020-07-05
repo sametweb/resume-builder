@@ -89,7 +89,7 @@ function EditSection(props) {
                     aria-label="edit block"
                     onClick={() => toggleEditBlockForm(block.id)}
                   >
-                    📝
+                    ✏️
                   </span>
                   <span
                     role="img"
@@ -122,6 +122,8 @@ function EditSection(props) {
                     <li className="bullet-form">
                       <form onSubmit={onBulletInputSubmit}>
                         <input
+                          required
+                          minLength={10}
                           value={bulletInput}
                           onChange={onBulletInputChange}
                           placeholder="Add New Bullet"
@@ -137,7 +139,9 @@ function EditSection(props) {
                           }
                         />
                         <button>Add</button>
-                        <button>Cancel</button>
+                        <button onClick={() => setNewBulletForm("")}>
+                          Cancel
+                        </button>
                       </form>
                     </li>
                   )}
