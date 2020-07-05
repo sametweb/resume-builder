@@ -25,12 +25,12 @@ type BatchPayload {
 
 type Block {
   id: ID!
-  section: Section!
   title1: String!
   title2: String
   subtitle1: String
   subtitle2: String
   order: Int!
+  section: Section!
   bullets(where: BulletWhereInput, orderBy: BulletOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bullet!]
 }
 
@@ -42,12 +42,12 @@ type BlockConnection {
 
 input BlockCreateInput {
   id: ID
-  section: SectionCreateOneWithoutBlocksInput!
   title1: String!
   title2: String
   subtitle1: String
   subtitle2: String
   order: Int!
+  section: SectionCreateOneWithoutBlocksInput!
   bullets: BulletCreateManyWithoutBlockInput
 }
 
@@ -63,12 +63,12 @@ input BlockCreateOneWithoutBulletsInput {
 
 input BlockCreateWithoutBulletsInput {
   id: ID
-  section: SectionCreateOneWithoutBlocksInput!
   title1: String!
   title2: String
   subtitle1: String
   subtitle2: String
   order: Int!
+  section: SectionCreateOneWithoutBlocksInput!
 }
 
 input BlockCreateWithoutSectionInput {
@@ -213,12 +213,12 @@ input BlockSubscriptionWhereInput {
 }
 
 input BlockUpdateInput {
-  section: SectionUpdateOneRequiredWithoutBlocksInput
   title1: String
   title2: String
   subtitle1: String
   subtitle2: String
   order: Int
+  section: SectionUpdateOneRequiredWithoutBlocksInput
   bullets: BulletUpdateManyWithoutBlockInput
 }
 
@@ -263,12 +263,12 @@ input BlockUpdateOneRequiredWithoutBulletsInput {
 }
 
 input BlockUpdateWithoutBulletsDataInput {
-  section: SectionUpdateOneRequiredWithoutBlocksInput
   title1: String
   title2: String
   subtitle1: String
   subtitle2: String
   order: Int
+  section: SectionUpdateOneRequiredWithoutBlocksInput
 }
 
 input BlockUpdateWithoutSectionDataInput {
@@ -311,7 +311,6 @@ input BlockWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  section: SectionWhereInput
   title1: String
   title1_not: String
   title1_in: [String!]
@@ -376,6 +375,7 @@ input BlockWhereInput {
   order_lte: Int
   order_gt: Int
   order_gte: Int
+  section: SectionWhereInput
   bullets_every: BulletWhereInput
   bullets_some: BulletWhereInput
   bullets_none: BulletWhereInput
@@ -811,9 +811,9 @@ input ResumeWhereUniqueInput {
 
 type Section {
   id: ID!
-  resume: Resume!
   title: String!
   order: Int!
+  resume: Resume!
   blocks(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Block!]
 }
 
@@ -825,9 +825,9 @@ type SectionConnection {
 
 input SectionCreateInput {
   id: ID
-  resume: ResumeCreateOneWithoutSectionsInput!
   title: String!
   order: Int!
+  resume: ResumeCreateOneWithoutSectionsInput!
   blocks: BlockCreateManyWithoutSectionInput
 }
 
@@ -843,9 +843,9 @@ input SectionCreateOneWithoutBlocksInput {
 
 input SectionCreateWithoutBlocksInput {
   id: ID
-  resume: ResumeCreateOneWithoutSectionsInput!
   title: String!
   order: Int!
+  resume: ResumeCreateOneWithoutSectionsInput!
 }
 
 input SectionCreateWithoutResumeInput {
@@ -936,9 +936,9 @@ input SectionSubscriptionWhereInput {
 }
 
 input SectionUpdateInput {
-  resume: ResumeUpdateOneRequiredWithoutSectionsInput
   title: String
   order: Int
+  resume: ResumeUpdateOneRequiredWithoutSectionsInput
   blocks: BlockUpdateManyWithoutSectionInput
 }
 
@@ -977,9 +977,9 @@ input SectionUpdateOneRequiredWithoutBlocksInput {
 }
 
 input SectionUpdateWithoutBlocksDataInput {
-  resume: ResumeUpdateOneRequiredWithoutSectionsInput
   title: String
   order: Int
+  resume: ResumeUpdateOneRequiredWithoutSectionsInput
 }
 
 input SectionUpdateWithoutResumeDataInput {
@@ -1019,7 +1019,6 @@ input SectionWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  resume: ResumeWhereInput
   title: String
   title_not: String
   title_in: [String!]
@@ -1042,6 +1041,7 @@ input SectionWhereInput {
   order_lte: Int
   order_gt: Int
   order_gte: Int
+  resume: ResumeWhereInput
   blocks_every: BlockWhereInput
   blocks_some: BlockWhereInput
   blocks_none: BlockWhereInput

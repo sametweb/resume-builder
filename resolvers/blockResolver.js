@@ -28,6 +28,9 @@ module.exports = {
         data: { title1, title2, subtitle1, subtitle2 },
       });
     },
+    deleteBlock: (parent, { id }, { prisma }) => {
+      return prisma.deleteBlock({ id });
+    },
   },
   Block: {
     bullets: (parent, args, { prisma }) => {

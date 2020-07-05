@@ -67,7 +67,7 @@ export const UPDATE_SECTION_ORDER = gql`
   }
 `;
 
-export const CREATE_BLOCK = gql`
+export const ADD_BLOCK = gql`
   mutation createBlock(
     $title1: String!
     $title2: String
@@ -104,6 +104,22 @@ export const UPDATE_BLOCK = gql`
       subtitle1: $subtitle1
       subtitle2: $subtitle2
     ) {
+      id
+    }
+  }
+`;
+
+export const DELETE_BLOCK = gql`
+  mutation deleteBlock($id: ID!) {
+    deleteBlock(id: $id) {
+      id
+    }
+  }
+`;
+
+export const ADD_BULLET = gql`
+  mutation createBullet($text: String!, $order: Int!, $block: ID!) {
+    createBullet(text: $text, order: $order, block: $block) {
       id
     }
   }

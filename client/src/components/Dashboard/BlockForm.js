@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CREATE_BLOCK, UPDATE_BLOCK } from "../../mutations";
+import { ADD_BLOCK, UPDATE_BLOCK } from "../../mutations";
 import { useMutation } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
@@ -20,10 +20,7 @@ function BlockForm({
     section: id,
   });
 
-  console.log({ newBlock });
-
-  const [createBlock] = useMutation(CREATE_BLOCK, {
-    variables: { ...newBlock },
+  const [createBlock] = useMutation(ADD_BLOCK, {
     refetchQueries: ["sectionBlocks", "resumeById"],
     onCompleted: () => console.log("completed"),
     onError: () => console.log("error"),
@@ -43,24 +40,13 @@ function BlockForm({
     e.preventDefault();
 
     if (blockToEdit) {
-      console.log("update called");
       updateBlock();
       toggleEditBlockForm(blockToEdit.id);
     } else {
-      console.log("create called");
-      createBlock();
+      createBlock({ variables: { ...newBlock, order: blocks.length + 1 } });
       toggleNewBlockForm();
     }
   };
-
-  useEffect(() => {
-    setNewBlock((n) => {
-      return {
-        ...n,
-        order: blocks.length + 1,
-      };
-    });
-  }, [blocks]);
 
   useEffect(() => {
     blockToEdit && setNewBlock({ ...blockToEdit });

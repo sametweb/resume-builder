@@ -131,7 +131,7 @@ function EditResume() {
                     </div>
                     <ul className="bullets">
                       {block.bullets.map((bullet) => (
-                        <li>{bullet.text}</li>
+                        <li key={bullet.id}>{bullet.text}</li>
                       ))}
                     </ul>
                   </div>
