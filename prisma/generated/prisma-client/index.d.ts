@@ -277,7 +277,6 @@ export interface SectionWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  resume?: Maybe<ResumeWhereInput>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -300,6 +299,7 @@ export interface SectionWhereInput {
   order_lte?: Maybe<Int>;
   order_gt?: Maybe<Int>;
   order_gte?: Maybe<Int>;
+  resume?: Maybe<ResumeWhereInput>;
   blocks_every?: Maybe<BlockWhereInput>;
   blocks_some?: Maybe<BlockWhereInput>;
   blocks_none?: Maybe<BlockWhereInput>;
@@ -374,7 +374,6 @@ export interface BlockWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  section?: Maybe<SectionWhereInput>;
   title1?: Maybe<String>;
   title1_not?: Maybe<String>;
   title1_in?: Maybe<String[] | String>;
@@ -439,6 +438,7 @@ export interface BlockWhereInput {
   order_lte?: Maybe<Int>;
   order_gt?: Maybe<Int>;
   order_gte?: Maybe<Int>;
+  section?: Maybe<SectionWhereInput>;
   bullets_every?: Maybe<BulletWhereInput>;
   bullets_some?: Maybe<BulletWhereInput>;
   bullets_none?: Maybe<BulletWhereInput>;
@@ -504,12 +504,12 @@ export type SectionWhereUniqueInput = AtLeastOne<{
 
 export interface BlockCreateInput {
   id?: Maybe<ID_Input>;
-  section: SectionCreateOneWithoutBlocksInput;
   title1: String;
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
   order: Int;
+  section: SectionCreateOneWithoutBlocksInput;
   bullets?: Maybe<BulletCreateManyWithoutBlockInput>;
 }
 
@@ -520,9 +520,9 @@ export interface SectionCreateOneWithoutBlocksInput {
 
 export interface SectionCreateWithoutBlocksInput {
   id?: Maybe<ID_Input>;
-  resume: ResumeCreateOneWithoutSectionsInput;
   title: String;
   order: Int;
+  resume: ResumeCreateOneWithoutSectionsInput;
 }
 
 export interface ResumeCreateOneWithoutSectionsInput {
@@ -550,12 +550,12 @@ export interface BulletCreateWithoutBlockInput {
 }
 
 export interface BlockUpdateInput {
-  section?: Maybe<SectionUpdateOneRequiredWithoutBlocksInput>;
   title1?: Maybe<String>;
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
   order?: Maybe<Int>;
+  section?: Maybe<SectionUpdateOneRequiredWithoutBlocksInput>;
   bullets?: Maybe<BulletUpdateManyWithoutBlockInput>;
 }
 
@@ -567,9 +567,9 @@ export interface SectionUpdateOneRequiredWithoutBlocksInput {
 }
 
 export interface SectionUpdateWithoutBlocksDataInput {
-  resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
   title?: Maybe<String>;
   order?: Maybe<Int>;
+  resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
 }
 
 export interface ResumeUpdateOneRequiredWithoutSectionsInput {
@@ -707,12 +707,12 @@ export interface BlockCreateOneWithoutBulletsInput {
 
 export interface BlockCreateWithoutBulletsInput {
   id?: Maybe<ID_Input>;
-  section: SectionCreateOneWithoutBlocksInput;
   title1: String;
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
   order: Int;
+  section: SectionCreateOneWithoutBlocksInput;
 }
 
 export interface BulletUpdateInput {
@@ -729,12 +729,12 @@ export interface BlockUpdateOneRequiredWithoutBulletsInput {
 }
 
 export interface BlockUpdateWithoutBulletsDataInput {
-  section?: Maybe<SectionUpdateOneRequiredWithoutBlocksInput>;
   title1?: Maybe<String>;
   title2?: Maybe<String>;
   subtitle1?: Maybe<String>;
   subtitle2?: Maybe<String>;
   order?: Maybe<Int>;
+  section?: Maybe<SectionUpdateOneRequiredWithoutBlocksInput>;
 }
 
 export interface BlockUpsertWithoutBulletsInput {
@@ -1029,16 +1029,16 @@ export interface ResumeUpdateManyMutationInput {
 
 export interface SectionCreateInput {
   id?: Maybe<ID_Input>;
-  resume: ResumeCreateOneWithoutSectionsInput;
   title: String;
   order: Int;
+  resume: ResumeCreateOneWithoutSectionsInput;
   blocks?: Maybe<BlockCreateManyWithoutSectionInput>;
 }
 
 export interface SectionUpdateInput {
-  resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
   title?: Maybe<String>;
   order?: Maybe<Int>;
+  resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
   blocks?: Maybe<BlockUpdateManyWithoutSectionInput>;
 }
 
@@ -1106,12 +1106,12 @@ export interface Block {
 
 export interface BlockPromise extends Promise<Block>, Fragmentable {
   id: () => Promise<ID_Output>;
-  section: <T = SectionPromise>() => T;
   title1: () => Promise<String>;
   title2: () => Promise<String>;
   subtitle1: () => Promise<String>;
   subtitle2: () => Promise<String>;
   order: () => Promise<Int>;
+  section: <T = SectionPromise>() => T;
   bullets: <T = FragmentableArray<Bullet>>(args?: {
     where?: BulletWhereInput;
     orderBy?: BulletOrderByInput;
@@ -1127,12 +1127,12 @@ export interface BlockSubscription
   extends Promise<AsyncIterator<Block>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  section: <T = SectionSubscription>() => T;
   title1: () => Promise<AsyncIterator<String>>;
   title2: () => Promise<AsyncIterator<String>>;
   subtitle1: () => Promise<AsyncIterator<String>>;
   subtitle2: () => Promise<AsyncIterator<String>>;
   order: () => Promise<AsyncIterator<Int>>;
+  section: <T = SectionSubscription>() => T;
   bullets: <T = Promise<AsyncIterator<BulletSubscription>>>(args?: {
     where?: BulletWhereInput;
     orderBy?: BulletOrderByInput;
@@ -1148,12 +1148,12 @@ export interface BlockNullablePromise
   extends Promise<Block | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  section: <T = SectionPromise>() => T;
   title1: () => Promise<String>;
   title2: () => Promise<String>;
   subtitle1: () => Promise<String>;
   subtitle2: () => Promise<String>;
   order: () => Promise<Int>;
+  section: <T = SectionPromise>() => T;
   bullets: <T = FragmentableArray<Bullet>>(args?: {
     where?: BulletWhereInput;
     orderBy?: BulletOrderByInput;
@@ -1173,9 +1173,9 @@ export interface Section {
 
 export interface SectionPromise extends Promise<Section>, Fragmentable {
   id: () => Promise<ID_Output>;
-  resume: <T = ResumePromise>() => T;
   title: () => Promise<String>;
   order: () => Promise<Int>;
+  resume: <T = ResumePromise>() => T;
   blocks: <T = FragmentableArray<Block>>(args?: {
     where?: BlockWhereInput;
     orderBy?: BlockOrderByInput;
@@ -1191,9 +1191,9 @@ export interface SectionSubscription
   extends Promise<AsyncIterator<Section>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  resume: <T = ResumeSubscription>() => T;
   title: () => Promise<AsyncIterator<String>>;
   order: () => Promise<AsyncIterator<Int>>;
+  resume: <T = ResumeSubscription>() => T;
   blocks: <T = Promise<AsyncIterator<BlockSubscription>>>(args?: {
     where?: BlockWhereInput;
     orderBy?: BlockOrderByInput;
@@ -1209,9 +1209,9 @@ export interface SectionNullablePromise
   extends Promise<Section | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  resume: <T = ResumePromise>() => T;
   title: () => Promise<String>;
   order: () => Promise<Int>;
+  resume: <T = ResumePromise>() => T;
   blocks: <T = FragmentableArray<Block>>(args?: {
     where?: BlockWhereInput;
     orderBy?: BlockOrderByInput;

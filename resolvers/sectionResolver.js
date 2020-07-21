@@ -45,7 +45,18 @@ module.exports = {
         data: { order: new_order },
       });
     },
-    deleteSection: (parent, { id }, { prisma }) => {
+    deleteSection: async (parent, { id }, { prisma }) => {
+      const orderToBeDeleted = await prisma.section({ id }).order();
+      const orderGt = await prisma.sections({
+        where: { order_gt: orderToBeDeleted },
+      });
+      orderGt.forEach(async (section) => {
+        await prisma.updateSection({
+          where: { id: section.id },
+          data: { order: section.order - 1 },
+        });
+      });
+
       return prisma.deleteSection({ id });
     },
   },
