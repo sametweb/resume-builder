@@ -19,6 +19,10 @@ var models = [
   {
     name: "Bullet",
     embedded: false
+  },
+  {
+    name: "Paragraph",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

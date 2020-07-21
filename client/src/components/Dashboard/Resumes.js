@@ -11,8 +11,6 @@ function Resumes() {
 
   const [userResumes, { data }] = useLazyQuery(USER_RESUMES);
 
-  console.log({ data });
-
   useEffect(() => {
     user?.email && userResumes({ variables: { user: user.email } });
   }, [user, userResumes]);

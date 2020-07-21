@@ -11,6 +11,10 @@ type AggregateBullet {
   count: Int!
 }
 
+type AggregateParagraph {
+  count: Int!
+}
+
 type AggregateResume {
   count: Int!
 }
@@ -610,6 +614,12 @@ type Mutation {
   upsertBullet(where: BulletWhereUniqueInput!, create: BulletCreateInput!, update: BulletUpdateInput!): Bullet!
   deleteBullet(where: BulletWhereUniqueInput!): Bullet
   deleteManyBullets(where: BulletWhereInput): BatchPayload!
+  createParagraph(data: ParagraphCreateInput!): Paragraph!
+  updateParagraph(data: ParagraphUpdateInput!, where: ParagraphWhereUniqueInput!): Paragraph
+  updateManyParagraphs(data: ParagraphUpdateManyMutationInput!, where: ParagraphWhereInput): BatchPayload!
+  upsertParagraph(where: ParagraphWhereUniqueInput!, create: ParagraphCreateInput!, update: ParagraphUpdateInput!): Paragraph!
+  deleteParagraph(where: ParagraphWhereUniqueInput!): Paragraph
+  deleteManyParagraphs(where: ParagraphWhereInput): BatchPayload!
   createResume(data: ResumeCreateInput!): Resume!
   updateResume(data: ResumeUpdateInput!, where: ResumeWhereUniqueInput!): Resume
   updateManyResumes(data: ResumeUpdateManyMutationInput!, where: ResumeWhereInput): BatchPayload!
@@ -641,6 +651,135 @@ type PageInfo {
   endCursor: String
 }
 
+type Paragraph {
+  id: ID!
+  text: String!
+  section: Section!
+}
+
+type ParagraphConnection {
+  pageInfo: PageInfo!
+  edges: [ParagraphEdge]!
+  aggregate: AggregateParagraph!
+}
+
+input ParagraphCreateInput {
+  id: ID
+  text: String!
+  section: SectionCreateOneWithoutParagraphInput!
+}
+
+input ParagraphCreateOneWithoutSectionInput {
+  create: ParagraphCreateWithoutSectionInput
+  connect: ParagraphWhereUniqueInput
+}
+
+input ParagraphCreateWithoutSectionInput {
+  id: ID
+  text: String!
+}
+
+type ParagraphEdge {
+  node: Paragraph!
+  cursor: String!
+}
+
+enum ParagraphOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+}
+
+type ParagraphPreviousValues {
+  id: ID!
+  text: String!
+}
+
+type ParagraphSubscriptionPayload {
+  mutation: MutationType!
+  node: Paragraph
+  updatedFields: [String!]
+  previousValues: ParagraphPreviousValues
+}
+
+input ParagraphSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ParagraphWhereInput
+  AND: [ParagraphSubscriptionWhereInput!]
+  OR: [ParagraphSubscriptionWhereInput!]
+  NOT: [ParagraphSubscriptionWhereInput!]
+}
+
+input ParagraphUpdateInput {
+  text: String
+  section: SectionUpdateOneRequiredWithoutParagraphInput
+}
+
+input ParagraphUpdateManyMutationInput {
+  text: String
+}
+
+input ParagraphUpdateOneWithoutSectionInput {
+  create: ParagraphCreateWithoutSectionInput
+  update: ParagraphUpdateWithoutSectionDataInput
+  upsert: ParagraphUpsertWithoutSectionInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ParagraphWhereUniqueInput
+}
+
+input ParagraphUpdateWithoutSectionDataInput {
+  text: String
+}
+
+input ParagraphUpsertWithoutSectionInput {
+  update: ParagraphUpdateWithoutSectionDataInput!
+  create: ParagraphCreateWithoutSectionInput!
+}
+
+input ParagraphWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  section: SectionWhereInput
+  AND: [ParagraphWhereInput!]
+  OR: [ParagraphWhereInput!]
+  NOT: [ParagraphWhereInput!]
+}
+
+input ParagraphWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   block(where: BlockWhereUniqueInput!): Block
   blocks(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Block]!
@@ -648,6 +787,9 @@ type Query {
   bullet(where: BulletWhereUniqueInput!): Bullet
   bullets(where: BulletWhereInput, orderBy: BulletOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bullet]!
   bulletsConnection(where: BulletWhereInput, orderBy: BulletOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BulletConnection!
+  paragraph(where: ParagraphWhereUniqueInput!): Paragraph
+  paragraphs(where: ParagraphWhereInput, orderBy: ParagraphOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Paragraph]!
+  paragraphsConnection(where: ParagraphWhereInput, orderBy: ParagraphOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ParagraphConnection!
   resume(where: ResumeWhereUniqueInput!): Resume
   resumes(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Resume]!
   resumesConnection(where: ResumeWhereInput, orderBy: ResumeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ResumeConnection!
@@ -815,6 +957,7 @@ type Section {
   order: Int!
   resume: Resume!
   blocks(where: BlockWhereInput, orderBy: BlockOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Block!]
+  paragraph: Paragraph
 }
 
 type SectionConnection {
@@ -829,6 +972,7 @@ input SectionCreateInput {
   order: Int!
   resume: ResumeCreateOneWithoutSectionsInput!
   blocks: BlockCreateManyWithoutSectionInput
+  paragraph: ParagraphCreateOneWithoutSectionInput
 }
 
 input SectionCreateManyWithoutResumeInput {
@@ -841,11 +985,25 @@ input SectionCreateOneWithoutBlocksInput {
   connect: SectionWhereUniqueInput
 }
 
+input SectionCreateOneWithoutParagraphInput {
+  create: SectionCreateWithoutParagraphInput
+  connect: SectionWhereUniqueInput
+}
+
 input SectionCreateWithoutBlocksInput {
   id: ID
   title: String!
   order: Int!
   resume: ResumeCreateOneWithoutSectionsInput!
+  paragraph: ParagraphCreateOneWithoutSectionInput
+}
+
+input SectionCreateWithoutParagraphInput {
+  id: ID
+  title: String!
+  order: Int!
+  resume: ResumeCreateOneWithoutSectionsInput!
+  blocks: BlockCreateManyWithoutSectionInput
 }
 
 input SectionCreateWithoutResumeInput {
@@ -853,6 +1011,7 @@ input SectionCreateWithoutResumeInput {
   title: String!
   order: Int!
   blocks: BlockCreateManyWithoutSectionInput
+  paragraph: ParagraphCreateOneWithoutSectionInput
 }
 
 type SectionEdge {
@@ -940,6 +1099,7 @@ input SectionUpdateInput {
   order: Int
   resume: ResumeUpdateOneRequiredWithoutSectionsInput
   blocks: BlockUpdateManyWithoutSectionInput
+  paragraph: ParagraphUpdateOneWithoutSectionInput
 }
 
 input SectionUpdateManyDataInput {
@@ -976,16 +1136,32 @@ input SectionUpdateOneRequiredWithoutBlocksInput {
   connect: SectionWhereUniqueInput
 }
 
+input SectionUpdateOneRequiredWithoutParagraphInput {
+  create: SectionCreateWithoutParagraphInput
+  update: SectionUpdateWithoutParagraphDataInput
+  upsert: SectionUpsertWithoutParagraphInput
+  connect: SectionWhereUniqueInput
+}
+
 input SectionUpdateWithoutBlocksDataInput {
   title: String
   order: Int
   resume: ResumeUpdateOneRequiredWithoutSectionsInput
+  paragraph: ParagraphUpdateOneWithoutSectionInput
+}
+
+input SectionUpdateWithoutParagraphDataInput {
+  title: String
+  order: Int
+  resume: ResumeUpdateOneRequiredWithoutSectionsInput
+  blocks: BlockUpdateManyWithoutSectionInput
 }
 
 input SectionUpdateWithoutResumeDataInput {
   title: String
   order: Int
   blocks: BlockUpdateManyWithoutSectionInput
+  paragraph: ParagraphUpdateOneWithoutSectionInput
 }
 
 input SectionUpdateWithWhereUniqueWithoutResumeInput {
@@ -996,6 +1172,11 @@ input SectionUpdateWithWhereUniqueWithoutResumeInput {
 input SectionUpsertWithoutBlocksInput {
   update: SectionUpdateWithoutBlocksDataInput!
   create: SectionCreateWithoutBlocksInput!
+}
+
+input SectionUpsertWithoutParagraphInput {
+  update: SectionUpdateWithoutParagraphDataInput!
+  create: SectionCreateWithoutParagraphInput!
 }
 
 input SectionUpsertWithWhereUniqueWithoutResumeInput {
@@ -1045,6 +1226,7 @@ input SectionWhereInput {
   blocks_every: BlockWhereInput
   blocks_some: BlockWhereInput
   blocks_none: BlockWhereInput
+  paragraph: ParagraphWhereInput
   AND: [SectionWhereInput!]
   OR: [SectionWhereInput!]
   NOT: [SectionWhereInput!]
@@ -1057,6 +1239,7 @@ input SectionWhereUniqueInput {
 type Subscription {
   block(where: BlockSubscriptionWhereInput): BlockSubscriptionPayload
   bullet(where: BulletSubscriptionWhereInput): BulletSubscriptionPayload
+  paragraph(where: ParagraphSubscriptionWhereInput): ParagraphSubscriptionPayload
   resume(where: ResumeSubscriptionWhereInput): ResumeSubscriptionPayload
   section(where: SectionSubscriptionWhereInput): SectionSubscriptionPayload
 }

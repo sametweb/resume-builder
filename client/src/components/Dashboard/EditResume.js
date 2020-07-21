@@ -97,7 +97,7 @@ function EditResume() {
                     draggedOver?.id === section.id ? "dragged-over" : ""
                   }
                 >
-                  {section.title} {section.order}
+                  {section.title}
                   <span className="section-actions">
                     <span
                       role="img"

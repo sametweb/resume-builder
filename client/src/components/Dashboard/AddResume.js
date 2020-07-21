@@ -22,7 +22,7 @@ function AddResume() {
   return (
     <form className="resume-form" onSubmit={handleAddResume}>
       <input
-        placeholder="New Resume"
+        placeholder="New Résumé"
         value={createInput}
         onChange={(e) => setCreateInput(e.target.value)}
       />

@@ -7,10 +7,10 @@ function Navigation() {
 
   return (
     <nav>
-      <li className="logo">Resume Builder</li>
+      <li className="logo">Résumé Builder</li>
       <li>
         <Link to="/">
-          What is Resume Builder{" "}
+          What is Résumé Builder{" "}
           <span role="img" aria-label="delete">
             ❓
           </span>
@@ -19,7 +19,7 @@ function Navigation() {
       {user && (
         <li>
           <Link to="/dashboard">
-            Create Resume{" "}
+            My Résumés{" "}
             <span role="img" aria-label="edit">
               📝
             </span>

@@ -18,6 +18,7 @@ export type Maybe<T> = T | undefined | null;
 export interface Exists {
   block: (where?: BlockWhereInput) => Promise<boolean>;
   bullet: (where?: BulletWhereInput) => Promise<boolean>;
+  paragraph: (where?: ParagraphWhereInput) => Promise<boolean>;
   resume: (where?: ResumeWhereInput) => Promise<boolean>;
   section: (where?: SectionWhereInput) => Promise<boolean>;
 }
@@ -79,6 +80,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => BulletConnectionPromise;
+  paragraph: (where: ParagraphWhereUniqueInput) => ParagraphNullablePromise;
+  paragraphs: (args?: {
+    where?: ParagraphWhereInput;
+    orderBy?: ParagraphOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Paragraph>;
+  paragraphsConnection: (args?: {
+    where?: ParagraphWhereInput;
+    orderBy?: ParagraphOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ParagraphConnectionPromise;
   resume: (where: ResumeWhereUniqueInput) => ResumeNullablePromise;
   resumes: (args?: {
     where?: ResumeWhereInput;
@@ -155,6 +175,22 @@ export interface Prisma {
   }) => BulletPromise;
   deleteBullet: (where: BulletWhereUniqueInput) => BulletPromise;
   deleteManyBullets: (where?: BulletWhereInput) => BatchPayloadPromise;
+  createParagraph: (data: ParagraphCreateInput) => ParagraphPromise;
+  updateParagraph: (args: {
+    data: ParagraphUpdateInput;
+    where: ParagraphWhereUniqueInput;
+  }) => ParagraphPromise;
+  updateManyParagraphs: (args: {
+    data: ParagraphUpdateManyMutationInput;
+    where?: ParagraphWhereInput;
+  }) => BatchPayloadPromise;
+  upsertParagraph: (args: {
+    where: ParagraphWhereUniqueInput;
+    create: ParagraphCreateInput;
+    update: ParagraphUpdateInput;
+  }) => ParagraphPromise;
+  deleteParagraph: (where: ParagraphWhereUniqueInput) => ParagraphPromise;
+  deleteManyParagraphs: (where?: ParagraphWhereInput) => BatchPayloadPromise;
   createResume: (data: ResumeCreateInput) => ResumePromise;
   updateResume: (args: {
     data: ResumeUpdateInput;
@@ -202,6 +238,9 @@ export interface Subscription {
   bullet: (
     where?: BulletSubscriptionWhereInput
   ) => BulletSubscriptionPayloadSubscription;
+  paragraph: (
+    where?: ParagraphSubscriptionWhereInput
+  ) => ParagraphSubscriptionPayloadSubscription;
   resume: (
     where?: ResumeSubscriptionWhereInput
   ) => ResumeSubscriptionPayloadSubscription;
@@ -247,6 +286,12 @@ export type BulletOrderByInput =
   | "text_DESC"
   | "order_ASC"
   | "order_DESC";
+
+export type ParagraphOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "text_ASC"
+  | "text_DESC";
 
 export type ResumeOrderByInput =
   | "id_ASC"
@@ -303,6 +348,7 @@ export interface SectionWhereInput {
   blocks_every?: Maybe<BlockWhereInput>;
   blocks_some?: Maybe<BlockWhereInput>;
   blocks_none?: Maybe<BlockWhereInput>;
+  paragraph?: Maybe<ParagraphWhereInput>;
   AND?: Maybe<SectionWhereInput[] | SectionWhereInput>;
   OR?: Maybe<SectionWhereInput[] | SectionWhereInput>;
   NOT?: Maybe<SectionWhereInput[] | SectionWhereInput>;
@@ -490,7 +536,46 @@ export interface BulletWhereInput {
   NOT?: Maybe<BulletWhereInput[] | BulletWhereInput>;
 }
 
+export interface ParagraphWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  section?: Maybe<SectionWhereInput>;
+  AND?: Maybe<ParagraphWhereInput[] | ParagraphWhereInput>;
+  OR?: Maybe<ParagraphWhereInput[] | ParagraphWhereInput>;
+  NOT?: Maybe<ParagraphWhereInput[] | ParagraphWhereInput>;
+}
+
 export type BulletWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type ParagraphWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -523,6 +608,7 @@ export interface SectionCreateWithoutBlocksInput {
   title: String;
   order: Int;
   resume: ResumeCreateOneWithoutSectionsInput;
+  paragraph?: Maybe<ParagraphCreateOneWithoutSectionInput>;
 }
 
 export interface ResumeCreateOneWithoutSectionsInput {
@@ -534,6 +620,16 @@ export interface ResumeCreateWithoutSectionsInput {
   id?: Maybe<ID_Input>;
   user: String;
   title: String;
+}
+
+export interface ParagraphCreateOneWithoutSectionInput {
+  create?: Maybe<ParagraphCreateWithoutSectionInput>;
+  connect?: Maybe<ParagraphWhereUniqueInput>;
+}
+
+export interface ParagraphCreateWithoutSectionInput {
+  id?: Maybe<ID_Input>;
+  text: String;
 }
 
 export interface BulletCreateManyWithoutBlockInput {
@@ -570,6 +666,7 @@ export interface SectionUpdateWithoutBlocksDataInput {
   title?: Maybe<String>;
   order?: Maybe<Int>;
   resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
+  paragraph?: Maybe<ParagraphUpdateOneWithoutSectionInput>;
 }
 
 export interface ResumeUpdateOneRequiredWithoutSectionsInput {
@@ -587,6 +684,24 @@ export interface ResumeUpdateWithoutSectionsDataInput {
 export interface ResumeUpsertWithoutSectionsInput {
   update: ResumeUpdateWithoutSectionsDataInput;
   create: ResumeCreateWithoutSectionsInput;
+}
+
+export interface ParagraphUpdateOneWithoutSectionInput {
+  create?: Maybe<ParagraphCreateWithoutSectionInput>;
+  update?: Maybe<ParagraphUpdateWithoutSectionDataInput>;
+  upsert?: Maybe<ParagraphUpsertWithoutSectionInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ParagraphWhereUniqueInput>;
+}
+
+export interface ParagraphUpdateWithoutSectionDataInput {
+  text?: Maybe<String>;
+}
+
+export interface ParagraphUpsertWithoutSectionInput {
+  update: ParagraphUpdateWithoutSectionDataInput;
+  create: ParagraphCreateWithoutSectionInput;
 }
 
 export interface SectionUpsertWithoutBlocksInput {
@@ -747,24 +862,22 @@ export interface BulletUpdateManyMutationInput {
   order?: Maybe<Int>;
 }
 
-export interface ResumeCreateInput {
+export interface ParagraphCreateInput {
   id?: Maybe<ID_Input>;
-  user: String;
-  title: String;
-  sections?: Maybe<SectionCreateManyWithoutResumeInput>;
+  text: String;
+  section: SectionCreateOneWithoutParagraphInput;
 }
 
-export interface SectionCreateManyWithoutResumeInput {
-  create?: Maybe<
-    SectionCreateWithoutResumeInput[] | SectionCreateWithoutResumeInput
-  >;
-  connect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+export interface SectionCreateOneWithoutParagraphInput {
+  create?: Maybe<SectionCreateWithoutParagraphInput>;
+  connect?: Maybe<SectionWhereUniqueInput>;
 }
 
-export interface SectionCreateWithoutResumeInput {
+export interface SectionCreateWithoutParagraphInput {
   id?: Maybe<ID_Input>;
   title: String;
   order: Int;
+  resume: ResumeCreateOneWithoutSectionsInput;
   blocks?: Maybe<BlockCreateManyWithoutSectionInput>;
 }
 
@@ -785,43 +898,22 @@ export interface BlockCreateWithoutSectionInput {
   bullets?: Maybe<BulletCreateManyWithoutBlockInput>;
 }
 
-export interface ResumeUpdateInput {
-  user?: Maybe<String>;
-  title?: Maybe<String>;
-  sections?: Maybe<SectionUpdateManyWithoutResumeInput>;
+export interface ParagraphUpdateInput {
+  text?: Maybe<String>;
+  section?: Maybe<SectionUpdateOneRequiredWithoutParagraphInput>;
 }
 
-export interface SectionUpdateManyWithoutResumeInput {
-  create?: Maybe<
-    SectionCreateWithoutResumeInput[] | SectionCreateWithoutResumeInput
-  >;
-  delete?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
-  connect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
-  set?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
-  disconnect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
-  update?: Maybe<
-    | SectionUpdateWithWhereUniqueWithoutResumeInput[]
-    | SectionUpdateWithWhereUniqueWithoutResumeInput
-  >;
-  upsert?: Maybe<
-    | SectionUpsertWithWhereUniqueWithoutResumeInput[]
-    | SectionUpsertWithWhereUniqueWithoutResumeInput
-  >;
-  deleteMany?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
-  updateMany?: Maybe<
-    | SectionUpdateManyWithWhereNestedInput[]
-    | SectionUpdateManyWithWhereNestedInput
-  >;
+export interface SectionUpdateOneRequiredWithoutParagraphInput {
+  create?: Maybe<SectionCreateWithoutParagraphInput>;
+  update?: Maybe<SectionUpdateWithoutParagraphDataInput>;
+  upsert?: Maybe<SectionUpsertWithoutParagraphInput>;
+  connect?: Maybe<SectionWhereUniqueInput>;
 }
 
-export interface SectionUpdateWithWhereUniqueWithoutResumeInput {
-  where: SectionWhereUniqueInput;
-  data: SectionUpdateWithoutResumeDataInput;
-}
-
-export interface SectionUpdateWithoutResumeDataInput {
+export interface SectionUpdateWithoutParagraphDataInput {
   title?: Maybe<String>;
   order?: Maybe<Int>;
+  resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
   blocks?: Maybe<BlockUpdateManyWithoutSectionInput>;
 }
 
@@ -964,6 +1056,78 @@ export interface BlockUpdateManyDataInput {
   order?: Maybe<Int>;
 }
 
+export interface SectionUpsertWithoutParagraphInput {
+  update: SectionUpdateWithoutParagraphDataInput;
+  create: SectionCreateWithoutParagraphInput;
+}
+
+export interface ParagraphUpdateManyMutationInput {
+  text?: Maybe<String>;
+}
+
+export interface ResumeCreateInput {
+  id?: Maybe<ID_Input>;
+  user: String;
+  title: String;
+  sections?: Maybe<SectionCreateManyWithoutResumeInput>;
+}
+
+export interface SectionCreateManyWithoutResumeInput {
+  create?: Maybe<
+    SectionCreateWithoutResumeInput[] | SectionCreateWithoutResumeInput
+  >;
+  connect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+}
+
+export interface SectionCreateWithoutResumeInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  order: Int;
+  blocks?: Maybe<BlockCreateManyWithoutSectionInput>;
+  paragraph?: Maybe<ParagraphCreateOneWithoutSectionInput>;
+}
+
+export interface ResumeUpdateInput {
+  user?: Maybe<String>;
+  title?: Maybe<String>;
+  sections?: Maybe<SectionUpdateManyWithoutResumeInput>;
+}
+
+export interface SectionUpdateManyWithoutResumeInput {
+  create?: Maybe<
+    SectionCreateWithoutResumeInput[] | SectionCreateWithoutResumeInput
+  >;
+  delete?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  connect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  set?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  disconnect?: Maybe<SectionWhereUniqueInput[] | SectionWhereUniqueInput>;
+  update?: Maybe<
+    | SectionUpdateWithWhereUniqueWithoutResumeInput[]
+    | SectionUpdateWithWhereUniqueWithoutResumeInput
+  >;
+  upsert?: Maybe<
+    | SectionUpsertWithWhereUniqueWithoutResumeInput[]
+    | SectionUpsertWithWhereUniqueWithoutResumeInput
+  >;
+  deleteMany?: Maybe<SectionScalarWhereInput[] | SectionScalarWhereInput>;
+  updateMany?: Maybe<
+    | SectionUpdateManyWithWhereNestedInput[]
+    | SectionUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface SectionUpdateWithWhereUniqueWithoutResumeInput {
+  where: SectionWhereUniqueInput;
+  data: SectionUpdateWithoutResumeDataInput;
+}
+
+export interface SectionUpdateWithoutResumeDataInput {
+  title?: Maybe<String>;
+  order?: Maybe<Int>;
+  blocks?: Maybe<BlockUpdateManyWithoutSectionInput>;
+  paragraph?: Maybe<ParagraphUpdateOneWithoutSectionInput>;
+}
+
 export interface SectionUpsertWithWhereUniqueWithoutResumeInput {
   where: SectionWhereUniqueInput;
   update: SectionUpdateWithoutResumeDataInput;
@@ -1033,6 +1197,7 @@ export interface SectionCreateInput {
   order: Int;
   resume: ResumeCreateOneWithoutSectionsInput;
   blocks?: Maybe<BlockCreateManyWithoutSectionInput>;
+  paragraph?: Maybe<ParagraphCreateOneWithoutSectionInput>;
 }
 
 export interface SectionUpdateInput {
@@ -1040,6 +1205,7 @@ export interface SectionUpdateInput {
   order?: Maybe<Int>;
   resume?: Maybe<ResumeUpdateOneRequiredWithoutSectionsInput>;
   blocks?: Maybe<BlockUpdateManyWithoutSectionInput>;
+  paragraph?: Maybe<ParagraphUpdateOneWithoutSectionInput>;
 }
 
 export interface SectionUpdateManyMutationInput {
@@ -1067,6 +1233,23 @@ export interface BulletSubscriptionWhereInput {
   AND?: Maybe<BulletSubscriptionWhereInput[] | BulletSubscriptionWhereInput>;
   OR?: Maybe<BulletSubscriptionWhereInput[] | BulletSubscriptionWhereInput>;
   NOT?: Maybe<BulletSubscriptionWhereInput[] | BulletSubscriptionWhereInput>;
+}
+
+export interface ParagraphSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ParagraphWhereInput>;
+  AND?: Maybe<
+    ParagraphSubscriptionWhereInput[] | ParagraphSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ParagraphSubscriptionWhereInput[] | ParagraphSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ParagraphSubscriptionWhereInput[] | ParagraphSubscriptionWhereInput
+  >;
 }
 
 export interface ResumeSubscriptionWhereInput {
@@ -1185,6 +1368,7 @@ export interface SectionPromise extends Promise<Section>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  paragraph: <T = ParagraphPromise>() => T;
 }
 
 export interface SectionSubscription
@@ -1203,6 +1387,7 @@ export interface SectionSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  paragraph: <T = ParagraphSubscription>() => T;
 }
 
 export interface SectionNullablePromise
@@ -1221,6 +1406,7 @@ export interface SectionNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  paragraph: <T = ParagraphPromise>() => T;
 }
 
 export interface Resume {
@@ -1276,6 +1462,33 @@ export interface ResumeNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+}
+
+export interface Paragraph {
+  id: ID_Output;
+  text: String;
+}
+
+export interface ParagraphPromise extends Promise<Paragraph>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  section: <T = SectionPromise>() => T;
+}
+
+export interface ParagraphSubscription
+  extends Promise<AsyncIterator<Paragraph>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  section: <T = SectionSubscription>() => T;
+}
+
+export interface ParagraphNullablePromise
+  extends Promise<Paragraph | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  section: <T = SectionPromise>() => T;
 }
 
 export interface Bullet {
@@ -1436,6 +1649,62 @@ export interface AggregateBulletPromise
 
 export interface AggregateBulletSubscription
   extends Promise<AsyncIterator<AggregateBullet>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ParagraphConnection {
+  pageInfo: PageInfo;
+  edges: ParagraphEdge[];
+}
+
+export interface ParagraphConnectionPromise
+  extends Promise<ParagraphConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ParagraphEdge>>() => T;
+  aggregate: <T = AggregateParagraphPromise>() => T;
+}
+
+export interface ParagraphConnectionSubscription
+  extends Promise<AsyncIterator<ParagraphConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ParagraphEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateParagraphSubscription>() => T;
+}
+
+export interface ParagraphEdge {
+  node: Paragraph;
+  cursor: String;
+}
+
+export interface ParagraphEdgePromise
+  extends Promise<ParagraphEdge>,
+    Fragmentable {
+  node: <T = ParagraphPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ParagraphEdgeSubscription
+  extends Promise<AsyncIterator<ParagraphEdge>>,
+    Fragmentable {
+  node: <T = ParagraphSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateParagraph {
+  count: Int;
+}
+
+export interface AggregateParagraphPromise
+  extends Promise<AggregateParagraph>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateParagraphSubscription
+  extends Promise<AsyncIterator<AggregateParagraph>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1667,6 +1936,50 @@ export interface BulletPreviousValuesSubscription
   order: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface ParagraphSubscriptionPayload {
+  mutation: MutationType;
+  node: Paragraph;
+  updatedFields: String[];
+  previousValues: ParagraphPreviousValues;
+}
+
+export interface ParagraphSubscriptionPayloadPromise
+  extends Promise<ParagraphSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ParagraphPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ParagraphPreviousValuesPromise>() => T;
+}
+
+export interface ParagraphSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ParagraphSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ParagraphSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ParagraphPreviousValuesSubscription>() => T;
+}
+
+export interface ParagraphPreviousValues {
+  id: ID_Output;
+  text: String;
+}
+
+export interface ParagraphPreviousValuesPromise
+  extends Promise<ParagraphPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+}
+
+export interface ParagraphPreviousValuesSubscription
+  extends Promise<AsyncIterator<ParagraphPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+}
+
 export interface ResumeSubscriptionPayload {
   mutation: MutationType;
   node: Resume;
@@ -1803,6 +2116,10 @@ export const models: Model[] = [
   },
   {
     name: "Bullet",
+    embedded: false
+  },
+  {
+    name: "Paragraph",
     embedded: false
   }
 ];

@@ -11,6 +11,7 @@ type Section {
   order: Int!
   resume: Resume! @relation(link: INLINE)
   blocks: [Block!]! @relation(onDelete: CASCADE)
+  paragraph: Paragraph @relation(onDelete: CASCADE)
 }
 
 type Block {
@@ -29,4 +30,10 @@ type Bullet {
   text: String!
   order: Int!
   block: Block! @relation(link: INLINE)
+}
+
+type Paragraph {
+  id: ID! @id
+  text: String!
+  section: Section! @relation(link: INLINE)
 }

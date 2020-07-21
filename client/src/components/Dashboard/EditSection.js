@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { SECTION_BLOCKS } from "../../queries";
 import { DELETE_BLOCK, ADD_BULLET } from "../../mutations";
 import BlockForm from "./BlockForm";
-import { DELETE_BLOCK } from "../../mutations";
+import ParagraphForm from "./ParagraphForm";
 
 function EditSection(props) {
   const { id } = useParams();
@@ -14,12 +14,9 @@ function EditSection(props) {
     variables: { section: id },
   });
 
-  const [deleteBlock] = useMutation(DELETE_BLOCK, {
-    refetchQueries: ["sectionBlocks", "resumeById"],
-  });
-
   const [newBlockForm, setNewBlockForm] = useState(false);
   const [editBlockForm, setEditBlockForm] = useState("");
+  const [newParagraphForm, setNewParagraphForm] = useState(false);
   const [newBulletForm, setNewBulletForm] = useState("");
 
   const [bulletInput, setBulletInput] = useState("");
@@ -44,6 +41,8 @@ function EditSection(props) {
 
   const toggleNewBlockForm = () => setNewBlockForm(!newBlockForm);
 
+  const toggleNewParagraphForm = () => setNewParagraphForm(!newParagraphForm);
+
   const toggleEditBlockForm = (id) =>
     setEditBlockForm(editBlockForm === id ? "" : id);
 
@@ -59,7 +58,7 @@ function EditSection(props) {
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = "scroll";
+      document.body.style.overflow = "";
     };
   }, []);
 
@@ -71,6 +70,9 @@ function EditSection(props) {
           <button onClick={toggleNewBlockForm}>
             {newBlockForm ? "Cancel" : "New Block"}
           </button>
+          <button onClick={toggleNewParagraphForm}>
+            {newParagraphForm ? "Cancel" : "New Paragraph"}
+          </button>
         </div>
         <div className="section">
           {newBlockForm && (
@@ -79,6 +81,7 @@ function EditSection(props) {
               toggleNewBlockForm={toggleNewBlockForm}
             />
           )}
+          {newParagraphForm && <ParagraphForm />}
           <div className="blocks">
             {data?.sectionBlocks.blocks.map((block) => (
               <div className="block" key={block.id}>
