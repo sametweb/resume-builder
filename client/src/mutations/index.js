@@ -108,3 +108,11 @@ export const UPDATE_BLOCK = gql`
     }
   }
 `;
+
+export const DELETE_BLOCK = gql`
+  mutation deleteBlock($id: ID!) {
+    deleteBlock(id: $id) {
+      id
+    }
+  }
+`;

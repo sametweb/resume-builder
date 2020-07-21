@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { SECTION_BLOCKS } from "../../queries";
 import BlockForm from "./BlockForm";
+import { DELETE_BLOCK } from "../../mutations";
 
 function EditSection(props) {
   const { id } = useParams();
@@ -19,6 +20,12 @@ function EditSection(props) {
   const toggleEditBlockForm = (id) =>
     setEditBlockForm(editBlockForm === id ? "" : id);
 
+  const [deleteBlock] = useMutation(DELETE_BLOCK, {
+    refetchQueries: ["sectionBlocks", "resumeById"],
+    onCompleted: () => console.log("completed"),
+    onError: () => console.log("error"),
+  });
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -27,7 +34,6 @@ function EditSection(props) {
     };
   }, []);
 
-  console.log({ editBlockForm });
   return (
     <div className="edit-section-modal" onClick={() => history.goBack()}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
@@ -55,7 +61,11 @@ function EditSection(props) {
                   >
                     📝
                   </span>
-                  <span role="img" aria-label="delete block">
+                  <span
+                    role="img"
+                    aria-label="delete block"
+                    onClick={() => deleteBlock({ variables: { id: block.id } })}
+                  >
                     ❌
                   </span>
                 </div>

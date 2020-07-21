@@ -20,8 +20,6 @@ function BlockForm({
     section: id,
   });
 
-  console.log({ newBlock });
-
   const [createBlock] = useMutation(CREATE_BLOCK, {
     variables: { ...newBlock },
     refetchQueries: ["sectionBlocks", "resumeById"],
