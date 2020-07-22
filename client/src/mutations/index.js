@@ -124,3 +124,16 @@ export const ADD_BULLET = gql`
     }
   }
 `;
+
+export const ADD_PARAGRAPH = gql`
+  mutation createParagraph($text: String!, $section: ID!) {
+    createParagraph(text: $text, section: $section) {
+      id
+      text
+      section {
+        id
+        title
+      }
+    }
+  }
+`;

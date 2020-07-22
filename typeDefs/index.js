@@ -4,6 +4,7 @@ const resumeTypeDef = require("./resume");
 const sectionTypeDef = require("./section");
 const blockTypeDef = require("./block");
 const bulletTypeDef = require("./bullet");
+const paragraphTypeDef = require("./paragraph");
 
 const typeDefs = gql`
   type Query {
@@ -20,4 +21,5 @@ module.exports = [
   sectionTypeDef,
   blockTypeDef,
   bulletTypeDef,
+  paragraphTypeDef,
 ];

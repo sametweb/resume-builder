@@ -37,7 +37,7 @@ module.exports = gql`
   }
 
   type SectionBlock {
-    section: String!
+    section: Section!
     blocks: [Block!]!
   }
 `;

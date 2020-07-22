@@ -4,7 +4,7 @@ module.exports = {
       const section = await prisma.section({ id });
       const blocks = await prisma.section({ id }).blocks();
 
-      return { section: section.title, blocks: blocks || [] };
+      return { section, blocks: blocks || [] };
     },
   },
   Mutation: {

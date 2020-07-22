@@ -56,7 +56,10 @@ export const GET_RESUME_BY_ID = gql`
 export const SECTION_BLOCKS = gql`
   query sectionBlocks($section: ID!) {
     sectionBlocks(section: $section) {
-      section
+      section {
+        id
+        title
+      }
       blocks {
         id
         title1
@@ -69,6 +72,19 @@ export const SECTION_BLOCKS = gql`
           text
           order
         }
+      }
+    }
+  }
+`;
+
+export const SECTION_PARAGRAPH = gql`
+  query sectionParagraph($section: ID!) {
+    sectionParagraph(section: $section) {
+      id
+      text
+      section {
+        id
+        title
       }
     }
   }

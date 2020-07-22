@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { SECTION_BLOCKS } from "../../queries";
+import { SECTION_BLOCKS, SECTION_PARAGRAPH } from "../../queries";
 import { DELETE_BLOCK, ADD_BULLET } from "../../mutations";
 import BlockForm from "./BlockForm";
 import ParagraphForm from "./ParagraphForm";
@@ -11,6 +11,10 @@ function EditSection(props) {
   const history = useHistory();
 
   const { data } = useQuery(SECTION_BLOCKS, {
+    variables: { section: id },
+  });
+
+  const { data: paragraphData } = useQuery(SECTION_PARAGRAPH, {
     variables: { section: id },
   });
 
@@ -66,7 +70,7 @@ function EditSection(props) {
     <div className="edit-section-modal" onClick={() => history.goBack()}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
         <div className="header">
-          <h2>{data?.sectionBlocks.section}</h2>
+          <h2>{data?.sectionBlocks.section.title}</h2>
           <button onClick={toggleNewBlockForm}>
             {newBlockForm ? "Cancel" : "New Block"}
           </button>
@@ -81,7 +85,14 @@ function EditSection(props) {
               toggleNewBlockForm={toggleNewBlockForm}
             />
           )}
-          {newParagraphForm && <ParagraphForm />}
+          {newParagraphForm && (
+            <ParagraphForm section={data?.sectionBlocks.section} />
+          )}
+          {paragraphData?.sectionParagraph ? (
+            <p>{paragraphData.sectionParagraph.text}</p>
+          ) : (
+            "Show blocks"
+          )}
           <div className="blocks">
             {data?.sectionBlocks.blocks.map((block) => (
               <div className="block" key={block.id}>
