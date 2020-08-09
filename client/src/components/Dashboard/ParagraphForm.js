@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { ADD_PARAGRAPH } from "../../mutations";
 
-function ParagraphForm({ section }) {
+function ParagraphForm({ section, toggle }) {
   const [text, setText] = useState("");
 
-  const [createParagraph] = useMutation(ADD_PARAGRAPH);
+  const [createParagraph] = useMutation(ADD_PARAGRAPH, {
+    onCompleted: toggle,
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -86,7 +86,10 @@ function EditSection(props) {
             />
           )}
           {newParagraphForm && (
-            <ParagraphForm section={data?.sectionBlocks.section} />
+            <ParagraphForm
+              section={data?.sectionBlocks.section}
+              toggle={toggleNewParagraphForm}
+            />
           )}
           {paragraphData?.sectionParagraph ? (
             <p>{paragraphData.sectionParagraph.text}</p>

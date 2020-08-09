@@ -865,7 +865,7 @@ export interface BulletUpdateManyMutationInput {
 export interface ParagraphCreateInput {
   id?: Maybe<ID_Input>;
   text: String;
-  section: SectionCreateOneWithoutParagraphInput;
+  section?: Maybe<SectionCreateOneWithoutParagraphInput>;
 }
 
 export interface SectionCreateOneWithoutParagraphInput {
@@ -900,13 +900,15 @@ export interface BlockCreateWithoutSectionInput {
 
 export interface ParagraphUpdateInput {
   text?: Maybe<String>;
-  section?: Maybe<SectionUpdateOneRequiredWithoutParagraphInput>;
+  section?: Maybe<SectionUpdateOneWithoutParagraphInput>;
 }
 
-export interface SectionUpdateOneRequiredWithoutParagraphInput {
+export interface SectionUpdateOneWithoutParagraphInput {
   create?: Maybe<SectionCreateWithoutParagraphInput>;
   update?: Maybe<SectionUpdateWithoutParagraphDataInput>;
   upsert?: Maybe<SectionUpsertWithoutParagraphInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
   connect?: Maybe<SectionWhereUniqueInput>;
 }
 

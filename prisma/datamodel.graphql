@@ -10,7 +10,7 @@ type Section {
   title: String!
   order: Int!
   resume: Resume! @relation(link: INLINE)
-  blocks: [Block!]! @relation(onDelete: CASCADE)
+  blocks: [Block!] @relation(onDelete: CASCADE)
   paragraph: Paragraph @relation(onDelete: CASCADE)
 }
 
@@ -35,5 +35,5 @@ type Bullet {
 type Paragraph {
   id: ID! @id
   text: String!
-  section: Section! @relation(link: INLINE)
+  section: Section @relation(link: INLINE)
 }

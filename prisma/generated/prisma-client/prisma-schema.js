@@ -654,7 +654,7 @@ type PageInfo {
 type Paragraph {
   id: ID!
   text: String!
-  section: Section!
+  section: Section
 }
 
 type ParagraphConnection {
@@ -666,7 +666,7 @@ type ParagraphConnection {
 input ParagraphCreateInput {
   id: ID
   text: String!
-  section: SectionCreateOneWithoutParagraphInput!
+  section: SectionCreateOneWithoutParagraphInput
 }
 
 input ParagraphCreateOneWithoutSectionInput {
@@ -716,7 +716,7 @@ input ParagraphSubscriptionWhereInput {
 
 input ParagraphUpdateInput {
   text: String
-  section: SectionUpdateOneRequiredWithoutParagraphInput
+  section: SectionUpdateOneWithoutParagraphInput
 }
 
 input ParagraphUpdateManyMutationInput {
@@ -1136,10 +1136,12 @@ input SectionUpdateOneRequiredWithoutBlocksInput {
   connect: SectionWhereUniqueInput
 }
 
-input SectionUpdateOneRequiredWithoutParagraphInput {
+input SectionUpdateOneWithoutParagraphInput {
   create: SectionCreateWithoutParagraphInput
   update: SectionUpdateWithoutParagraphDataInput
   upsert: SectionUpsertWithoutParagraphInput
+  delete: Boolean
+  disconnect: Boolean
   connect: SectionWhereUniqueInput
 }
 
