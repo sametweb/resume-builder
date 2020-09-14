@@ -6,6 +6,7 @@ import "./style.scss";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Header";
 import EditResume from "./components/Dashboard/EditResume";
+import Home from "./components/Home";
 
 export const AuthContext = React.createContext();
 
@@ -27,6 +28,7 @@ function App() {
     <AuthContext.Provider value={{ user, signIn, signOut }}>
       <Router>
         <Header />
+        <Route path="/" exact component={Home} />
         <Route path="/dashboard" exact component={Dashboard} />
         <Route path="/dashboard/edit-resume/:id" component={EditResume} />
       </Router>

@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import { AuthContext } from "../../App";
 
 function AuthButtons() {
   const { user, signIn, signOut } = useContext(AuthContext);
+  const { push } = useHistory();
 
   const Button = () =>
     !user?.email ? (
@@ -12,7 +14,7 @@ function AuthButtons() {
       </button>
     ) : (
       <>
-        <button onClick={signOut} id="logout">
+        <button onClick={() => signOut(push)} id="logout">
           Logout <img src={user?.photoURL} alt="user avatar" />
         </button>
       </>

@@ -22,6 +22,7 @@ export const signIn = () => {
   auth.signInWithPopup(provider);
 };
 
-export const signOut = () => {
+export const signOut = (push) => {
   auth.signOut();
+  push("/");
 };
